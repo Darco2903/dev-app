@@ -1,0 +1,44 @@
+#menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    height: 40px;
+}
+
+.menu-item {
+    padding: 10px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: background-color 0.1s;
+}
+
+.menu-item[active] {
+    background-color: #203055;
+}
+
+.menu-item:not([active]):hover {
+    background-color: #333;
+}
+
+.menu-item:not([active]):active {
+    background-color: #444;
+}
+
+.menu-item[active]:hover {
+    background-color: #1b2846;
+}
+
+.menu-item[active]:active {
+    background-color: #17233d;
+}
+
+#content:not(:has(.menu-item[active])) .section[id],
+#content:has(#menu-item-cloudfront[active]) .section:not(#cloudfront),
+#content:has(#menu-item-port-forward[active]) .section:not(#port-forward) {
+    display: none;
+}

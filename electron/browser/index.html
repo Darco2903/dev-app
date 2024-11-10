@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/main/index.css" />
+    </head>
+
+    <body>
+        <div id="content">
+            <div id="menu">
+                <div class="menu-item" id="menu-item-cloudfront">CloudFront</div>
+                <div class="menu-item" id="menu-item-port-forward">Port Forward</div>
+            </div>
+
+            <div class="section"></div>
+
+            <div class="section" id="cloudfront">
+                <div class="section-header">
+                    <div class="section-name">CloudFront</div>
+                    <button class="section-refresh" id="cloudfront-refresh">Refresh</button>
+                </div>
+                <div class="section-container" id="cloudfront-container"></div>
+            </div>
+
+            <div class="section" id="port-forward">
+                <div class="section-header">
+                    <div class="section-name">Port Forward</div>
+                    <button class="section-refresh" id="port-forward-refresh">Refresh</button>
+                </div>
+                <div class="section-container" id="port-forward-container"></div>
+            </div>
+        </div>
+
+        <div id="clones" hidden>
+            <div class="cloudfront">
+                <div class="cloudfront-header">
+                    <div class="cloudfront-name"></div>
+                </div>
+
+                <div class="cloudfront-enable-container">
+                    <input type="checkbox" class="cloudfront-enable" />
+                </div>
+
+                <div class="cloudfront-info">
+                    <div class="cloudfront-info-container">
+                        <div class="cloudfront-info-header">
+                            <label class="cloudfront-info-label">ID</label>
+                            <div class="cloudfront-id"></div>
+                        </div>
+                        <div class="cloudfront-info-header">
+                            <label class="cloudfront-info-label">Status</label>
+                            <div class="cloudfront-status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="port-forward">
+                <div class="port-forward-header">
+                    <div class="port-forward-name"></div>
+                </div>
+
+                <div class="port-forward-enable-container">
+                    <input type="checkbox" class="port-forward-enable" />
+                </div>
+
+                <div class="port-forward-info">
+                    <div class="port-forward-info-container">
+                        <div class="port-forward-info-header">
+                            <label class="port-forward-info-label">Port</label>
+                            <div class="port-forward-port"></div>
+                        </div>
+                        <div class="port-forward-info-header">
+                            <label class="port-forward-info-label">IP</label>
+                            <div class="port-forward-ip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="./js/main/index.js" type="module"></script>
+</html>
