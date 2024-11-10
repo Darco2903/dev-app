@@ -31,7 +31,9 @@ body {
 .section-container {
     display: flex;
     flex-direction: column;
-    width: 95%;
+    --width: 93%;
+    width: var(--width);
+    padding-right: calc(100% - var(--width) - 5%);
     height: 95%;
     overflow-y: scroll;
 }
