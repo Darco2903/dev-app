@@ -1,6 +1,6 @@
 {
     "name": "dev-app",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "main": "./electron/index.js",
     "scripts": {
         "start": "electron .",
@@ -28,7 +28,7 @@
         "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
         "@electron-forge/plugin-fuses": "^7.5.0",
         "@electron/fuses": "^1.8.0",
-        "darco2903-os-command-kit": "file:../os-command-kit",
+        "darco2903-os-command-kit": "file:../os-command-kit/darco2903-os-command-kit-1.1.0.tgz",
         "electron": "^33.2.0"
     }
 }

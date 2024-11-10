@@ -2,6 +2,7 @@ const path = require("path");
 const { BrowserWindow, Tray } = require("electron");
 const settings = require("electron-settings");
 
+const { version } = require("../../package.json");
 const { APP_ICON, APP_NAME } = require("../../config/app.json");
 
 /** @type {BrowserWindow} */
@@ -56,7 +57,7 @@ async function createWindow() {
         // transparent: true,
         // frame: false,
 
-        title: APP_NAME,
+        title: `${APP_NAME} - v${version}`,
         icon,
         webPreferences: {
             preload: path.join(__dirname, "../preload.js"),
