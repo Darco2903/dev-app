@@ -2,8 +2,8 @@ node_modules/
 .vscode/
 
 # config files
-# config/*
-# !config/app.json
+config/*
+!config/app.json
 
 # build directory
 out/
