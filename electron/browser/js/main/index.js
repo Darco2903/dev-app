@@ -1,10 +1,13 @@
 import { initMenuButtons, getMenuButtons } from "./menu.js";
 import { addCloudfrontElement, clearCloudfrontElements, createCloudfrontElement, listDistributions } from "./cloudfront.js";
+import { addDatabaseElement, clearDatabaseElements, createDatabaseElement, listDatabases } from "./database.js";
 import { addPortForwardElement, clearPortForwardElements, createPortForwardElement, getPortForwardingRules } from "./port-forward.js";
 import { wait } from "../utils.js";
 
 const content = document.getElementById("content");
+
 const cloudfrontRefresh = document.getElementById("cloudfront-refresh");
+const databaseRefresh = document.getElementById("database-refresh");
 const portForwardRefresh = document.getElementById("port-forward-refresh");
 
 cloudfrontRefresh.addEventListener("click", async () => {
@@ -20,6 +23,22 @@ cloudfrontRefresh.addEventListener("click", async () => {
 
     await wait(1000);
     cloudfrontRefresh.disabled = false;
+});
+
+databaseRefresh.addEventListener("click", async () => {
+    databaseRefresh.disabled = true;
+
+    const databases = await listDatabases();
+    clearDatabaseElements();
+    console.log(databases);
+
+    databases.forEach((database) => {
+        const d = createDatabaseElement(database.name, database.apache, database.mysql);
+        addDatabaseElement(d);
+    });
+
+    await wait(1000);
+    databaseRefresh.disabled = false;
 });
 
 portForwardRefresh.addEventListener("click", async () => {
@@ -41,5 +60,6 @@ window.addEventListener("load", async () => {
     initMenuButtons();
 
     cloudfrontRefresh.click();
+    databaseRefresh.click();
     portForwardRefresh.click();
 });

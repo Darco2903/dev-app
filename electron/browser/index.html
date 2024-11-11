@@ -7,6 +7,7 @@
         <div id="content">
             <div id="menu">
                 <div class="menu-item" id="menu-item-cloudfront">CloudFront</div>
+                <div class="menu-item" id="menu-item-database">Database</div>
                 <div class="menu-item" id="menu-item-port-forward">Port Forward</div>
             </div>
 
@@ -18,6 +19,14 @@
                     <button class="section-refresh" id="cloudfront-refresh">Refresh</button>
                 </div>
                 <div class="section-container" id="cloudfront-container"></div>
+            </div>
+
+            <div class="section" id="database">
+                <div class="section-header">
+                    <div class="section-name">Database</div>
+                    <button class="section-refresh" id="database-refresh">Refresh</button>
+                </div>
+                <div class="section-container" id="database-container"></div>
             </div>
 
             <div class="section" id="port-forward">
@@ -49,6 +58,36 @@
                             <label class="cloudfront-info-label">Status</label>
                             <div class="cloudfront-status"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="database">
+                <div class="database-header">
+                    <div class="database-name"></div>
+                </div>
+
+                <div class="database-enable-container">
+                    <div>
+                        <label class="database-enable-label">Apache</label>
+                        <input type="checkbox" class="database-apache" />
+                    </div>
+                    <div>
+                        <label class="database-enable-label">MySQL</label>
+                        <input type="checkbox" class="database-mysql" />
+                    </div>
+                </div>
+
+                <div class="database-info">
+                    <div class="database-info-container">
+                        <!-- <div class="database-info-header">
+                            <label class="database-info-label">Name</label>
+                            <div class="database-name"></div>
+                        </div> -->
+                        <!-- <div class="database-info-header">
+                            <label class="database-info-label">Status</label>
+                            <div class="database-status"></div>
+                        </div> -->
                     </div>
                 </div>
             </div>

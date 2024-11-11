@@ -39,6 +39,7 @@
 
 #content:not(:has(.menu-item[active])) .section[id],
 #content:has(#menu-item-cloudfront[active]) .section:not(#cloudfront),
+#content:has(#menu-item-database[active]) .section:not(#database),
 #content:has(#menu-item-port-forward[active]) .section:not(#port-forward) {
     display: none;
 }

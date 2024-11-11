@@ -17,17 +17,17 @@ async function ontTogglePortForward(event) {
 
 export function createPortForwardElement(name, enabled, port, ip) {
     /** @type {HTMLDivElement} */
-    const element = portForwardClone.cloneNode(true);
+    const elem = portForwardClone.cloneNode(true);
     /** @type {HTMLInputElement} */
-    const checkbox = element.querySelector(".port-forward-enable");
+    const checkbox = elem.querySelector(".port-forward-enable");
     const parsedName = name.replace("webui_", "");
     checkbox.dataset.name = name;
     checkbox.checked = enabled;
     checkbox.addEventListener("change", ontTogglePortForward);
-    element.querySelector(".port-forward-name").textContent = parsedName;
-    element.querySelector(".port-forward-port").textContent = port;
-    element.querySelector(".port-forward-ip").textContent = ip;
-    return element;
+    elem.querySelector(".port-forward-name").textContent = parsedName;
+    elem.querySelector(".port-forward-port").textContent = port;
+    elem.querySelector(".port-forward-ip").textContent = ip;
+    return elem;
 }
 
 export function addPortForwardElement(element) {

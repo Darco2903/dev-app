@@ -3,6 +3,7 @@
 const { createWindow } = require("./window");
 
 require("./handler/cloudfront");
+require("./handler/database");
 require("./handler/livebox");
 
 module.exports = {

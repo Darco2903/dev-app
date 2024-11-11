@@ -2,6 +2,15 @@ const cloudfrontClone = document.querySelector("#clones .cloudfront");
 const cloudfrontContainer = document.getElementById("cloudfront-container");
 
 /**
+ * @param {string} id
+ * @param {boolean} enable
+ * @returns {Promise<boolean>}
+ */
+function toggleCloudfront(id, enable) {
+    return cloudfront.toggleDistribution(id, enable);
+}
+
+/**
  * @param {Event} event
  */
 async function ontToggleCloudfront(event) {
@@ -24,17 +33,17 @@ async function ontToggleCloudfront(event) {
  */
 export function createCloudfrontElement(name, id, status, enabled) {
     /** @type {HTMLDivElement} */
-    const element = cloudfrontClone.cloneNode(true);
+    const elem = cloudfrontClone.cloneNode(true);
     /** @type {HTMLInputElement} */
-    const checkbox = element.querySelector(".cloudfront-enable");
+    const checkbox = elem.querySelector(".cloudfront-enable");
 
     checkbox.dataset.id = id;
     checkbox.checked = enabled;
     checkbox.addEventListener("change", ontToggleCloudfront);
-    element.querySelector(".cloudfront-name").textContent = name;
-    element.querySelector(".cloudfront-id").textContent = id;
-    element.querySelector(".cloudfront-status").textContent = status;
-    return element;
+    elem.querySelector(".cloudfront-name").textContent = name;
+    elem.querySelector(".cloudfront-id").textContent = id;
+    elem.querySelector(".cloudfront-status").textContent = status;
+    return elem;
 }
 
 export function addCloudfrontElement(element) {
@@ -50,13 +59,4 @@ export function clearCloudfrontElements() {
  */
 export function listDistributions() {
     return cloudfront.listDistributions();
-}
-
-/**
- * @param {string} id
- * @param {boolean} enable
- * @returns {Promise<boolean>}
- */
-function toggleCloudfront(id, enable) {
-    return cloudfront.toggleDistribution(id, enable);
 }
