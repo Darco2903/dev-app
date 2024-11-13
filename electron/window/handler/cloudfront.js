@@ -18,8 +18,8 @@ const cloudfront = new CloudFront({
 function mapDistribution(distribution) {
     return {
         id: distribution.Id,
-        enabled: distribution.Enabled,
         status: distribution.Status,
+        enabled: distribution.Enabled,
         name: distribution.Comment,
     };
 }
@@ -39,5 +39,13 @@ ipcMain.handle("toggleDistribution", async (event, id, enable) => {
             IfMatch: ETag,
             DistributionConfig,
         })
-        .then((data) => data.Distribution.Status === "InProgress");
+        .then((data) => data.Distribution)
+        .then((dist) => {
+            return {
+                id: dist.Id,
+                status: dist.Status,
+                enabled: dist.DistributionConfig.Enabled,
+                name: dist.DistributionConfig.Comment,
+            };
+        });
 });

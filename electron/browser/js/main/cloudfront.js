@@ -4,7 +4,7 @@ const cloudfrontContainer = document.getElementById("cloudfront-container");
 /**
  * @param {string} id
  * @param {boolean} enable
- * @returns {Promise<boolean>}
+ * @returns {Promise<import("../../../window/handler/cloudfront").Distribution>}
  */
 function toggleCloudfront(id, enable) {
     return cloudfront.toggleDistribution(id, enable);
@@ -21,7 +21,13 @@ async function ontToggleCloudfront(event) {
     const res = await toggleCloudfront(id, enabled);
     // console.log("res", res);
     // console.log(`Cloudfront ${id} is now ${enabled ? "enabled" : "disabled"}`);
+    updateElement(checkbox.closest(".cloudfront"), res.status, res.enabled);
     checkbox.disabled = false;
+}
+
+function updateElement(element, status, enabled) {
+    element.querySelector(".cloudfront-status").textContent = status;
+    element.querySelector(".cloudfront-enable").checked = enabled;
 }
 
 /**
