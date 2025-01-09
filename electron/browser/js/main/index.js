@@ -1,5 +1,5 @@
 import { initMenuButtons, getMenuButtons } from "./menu.js";
-import { addCloudfrontElement, clearCloudfrontElements, createCloudfrontElement, listDistributions } from "./cloudfront.js";
+// import { addCloudfrontElement, clearCloudfrontElements, createCloudfrontElement, listDistributions } from "./cloudfront.js";
 import { addDatabaseElement, clearDatabaseElements, createDatabaseElement, listDatabases } from "./database.js";
 import { addPortForwardElement, clearPortForwardElements, createPortForwardElement, getPortForwardingRules } from "./port-forward.js";
 import { wait } from "../utils.js";
@@ -59,7 +59,7 @@ portForwardRefresh.addEventListener("click", async () => {
 window.addEventListener("load", async () => {
     initMenuButtons();
 
-    cloudfrontRefresh.click();
+    // cloudfrontRefresh.click();
     databaseRefresh.click();
     portForwardRefresh.click();
 });
