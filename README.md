@@ -53,12 +53,11 @@ Create [**aws.json**](./config/aws.json) file in the **config** folder with the 
 
 The next step is to uncomment the following lines:
 
+-   [**index.html**](./electron/browser/index.html#L10)
 -   [**index.js**](./electron/window/index.js#L5)
 -   [**index.js**](./electron/browser/js/main/index.js#L2)
 -   [**index.js**](./electron/browser/js/main/index.js#L62)
 -   [**index.js**](./electron/browser/css/main/index.css#L3)
-
-Then remove the styles `#menu-item-cloudfront` and `#cloudfront` from the [**index.html**](./electron/browser/index.html#L7) file.
 
 The last step is to install the following dependencies:
 
