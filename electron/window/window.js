@@ -1,6 +1,8 @@
 const path = require("path");
-const { BrowserWindow, Tray } = require("electron");
+const { BrowserWindow, Tray, dialog } = require("electron");
 const settings = require("electron-settings");
+
+const { isBusy } = require("./busy");
 
 const { version } = require("../../package.json");
 const { APP_ICON, APP_NAME } = require("../../config/app.json");
@@ -81,10 +83,40 @@ async function createWindow() {
     // window.on("moved", async () => await saveWindow(window, "main"));
     // window.on("maximize", async () => await saveWindow(window, "main"));
     // window.on("unmaximize", async () => await saveWindow(window, "main"));
-    window.on("close", async () => {
+
+    let forceQuit = false;
+    window.on("close", async (e) => {
+        // console.log("isBusy", isBusy());
+
+        if (isBusy() && !forceQuit) {
+            e.preventDefault();
+
+            // open a dialog to alert the user
+            const res = await dialog.showMessageBox(window, {
+                type: "warning",
+                title: "Close Window",
+                message: "The window is busy. Are you sure you want to close it?",
+                buttons: ["Yes", "No"],
+            });
+
+            if (res.response === 1) {
+                return;
+            }
+
+            forceQuit = true;
+            window.close();
+            return;
+        }
+
         console.log("close main window");
         await saveWindow(window, "main");
         console.log("saved");
+
+        // await new Promise((resolve) => {
+        //     setTimeout(() => {
+        //         resolve();
+        //     }, 10000);
+        // });
     });
 
     window.on("minimize", async () => {

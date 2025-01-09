@@ -18,11 +18,13 @@ async function ontToggleCloudfront(event) {
     const id = checkbox.dataset.id;
     const enabled = checkbox.checked;
     checkbox.disabled = true;
+    const busy = await app.busy();
     const res = await toggleCloudfront(id, enabled);
     // console.log("res", res);
     // console.log(`Cloudfront ${id} is now ${enabled ? "enabled" : "disabled"}`);
     updateElement(checkbox.closest(".cloudfront"), res.status, res.enabled);
     checkbox.disabled = false;
+    await app.unBusy(busy);
 }
 
 function updateElement(element, status, enabled) {

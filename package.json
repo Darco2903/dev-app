@@ -1,9 +1,10 @@
 {
     "name": "dev-app",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "main": "./electron/index.js",
     "scripts": {
         "start": "electron .",
+        "dev": "electron . dev",
         "start-forge": "electron-forge start",
         "package": "electron-forge package",
         "make": "electron-forge make",
@@ -14,7 +15,6 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "@aws-sdk/client-cloudfront": "^3.687.0",
         "console-log-colors": "^0.5.0",
         "electron-settings": "^4.0.4",
         "livebox": "file:../livebox/packages/livebox-0.1.1.tgz",

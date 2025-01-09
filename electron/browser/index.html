@@ -1,25 +1,26 @@
 <html>
     <head>
         <link rel="stylesheet" href="./css/main/index.css" />
-
-        <style>
-            /* Hide CloudFront section */
-            #menu-item-cloudfront,
-            #cloudfront {
-                display: none;
-            }
-        </style>
     </head>
 
     <body>
         <div id="content">
             <div id="menu">
-                <div class="menu-item" id="menu-item-cloudfront">CloudFront</div>
+                <div class="menu-item toggle" id="menu-item-cloudflared" data-toggle="cloudflared">CloudFlared</div>
+                <!-- <div class="menu-item" id="menu-item-cloudfront">CloudFront</div> -->
                 <div class="menu-item" id="menu-item-database">Database</div>
                 <div class="menu-item" id="menu-item-port-forward">Port Forward</div>
             </div>
 
             <div class="section"></div>
+
+            <!-- <div class="section" id="cloudflared">
+                <div class="section-header">
+                    <div class="section-name">CloudFlared</div>
+                    <button class="section-refresh" id="cloudflared-refresh">Refresh</button>
+                </div>
+                <div class="section-container" id="cloudflared-container"></div>
+            </div> -->
 
             <div class="section" id="cloudfront">
                 <div class="section-header">
@@ -47,6 +48,29 @@
         </div>
 
         <div id="clones" hidden>
+            <!-- <div class="cloudflared">
+                <div class="cloudflared-header">
+                    <div class="cloudflared-name"></div>
+                </div>
+
+                <div class="cloudflared-enable-container">
+                    <input type="checkbox" class="cloudflared-enable" />
+                </div>
+
+                <div class="cloudflared-info">
+                    <div class="cloudflared-info-container">
+                        <div class="cloudflared-info-header">
+                            <label class="cloudflared-info-label">ID</label>
+                            <div class="cloudflared-id"></div>
+                        </div>
+                        <div class="cloudflared-info-header">
+                            <label class="cloudflared-info-label">Status</label>
+                            <div class="cloudflared-status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
             <div class="cloudfront">
                 <div class="cloudfront-header">
                     <div class="cloudfront-name"></div>

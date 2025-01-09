@@ -2,6 +2,8 @@
 
 const { createWindow } = require("./window");
 
+require("./handler/app");
+require("./handler/cloudflared");
 // require("./handler/cloudfront");
 require("./handler/database");
 require("./handler/livebox");

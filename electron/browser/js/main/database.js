@@ -18,6 +18,8 @@ function toggleDatabase(name, type, enable) {
     return database.toggleDatabase(name, type, enable);
 }
 
+const busyCheckboxes = new Map();
+
 /**
  * @param {Event} event
  */
@@ -27,22 +29,27 @@ async function onToggleDatabase(event) {
     const type = checkbox.dataset.type;
     const enable = checkbox.checked;
     checkbox.disabled = true;
+    const busy = await app.busy();
+    busyCheckboxes.set(checkbox, busy);
     const res = await toggleDatabase(name, type, enable);
-    console.log("res", res);
-    console.log(`Database ${name} ${type} is now ${enable ? "enabled" : "disabled"}`);
+    // console.log("res", res);
+    // console.log(`Database ${name} ${type} is now ${enable ? "enabled" : "disabled"}`);
     // checkbox.disabled = false;
 }
 
 database.onUpdateDatabaseStatus(({ name, type, enable }) => {
-    console.log("status", name, type, enable);
+    // console.log("status", name, type, enable);
     const elem = getDatabaseElement(name);
-    console.log("elem", elem);
+    // console.log("elem", elem);
 
     if (!elem) return;
 
     const checkbox = elem.querySelector(`.database-${type}`);
     checkbox.checked = enable;
     checkbox.disabled = false;
+
+    const busy = busyCheckboxes.get(checkbox);
+    if (busy) app.unBusy(busy);
 });
 
 /**

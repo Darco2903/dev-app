@@ -4,7 +4,7 @@ DevApp created to access and toggle dev tools faster
 
 ## How to use
 
-1. Create [**uniserverz.json**](./config/uniserverz.json) and [**livebox.json**](./config/livebox.json) files in the **config** folder with the following structure:
+1. Create [**cloudflared.json**](./config/cloudflared.json), [**uniserverz.json**](./config/uniserverz.json) and [**livebox.json**](./config/livebox.json) files in the **config** folder with the following structure:
 
 **uniserverz.json**
 

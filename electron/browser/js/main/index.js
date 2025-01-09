@@ -1,4 +1,5 @@
 import { initMenuButtons, getMenuButtons } from "./menu.js";
+import {} from "./cloudflared.js";
 // import { addCloudfrontElement, clearCloudfrontElements, createCloudfrontElement, listDistributions } from "./cloudfront.js";
 import { addDatabaseElement, clearDatabaseElements, createDatabaseElement, listDatabases } from "./database.js";
 import { addPortForwardElement, clearPortForwardElements, createPortForwardElement, getPortForwardingRules } from "./port-forward.js";
@@ -30,7 +31,7 @@ databaseRefresh.addEventListener("click", async () => {
 
     const databases = await listDatabases();
     clearDatabaseElements();
-    console.log(databases);
+    // console.log(databases);
 
     databases.forEach((database) => {
         const d = createDatabaseElement(database.name, database.apache, database.mysql);

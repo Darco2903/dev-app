@@ -1,5 +1,8 @@
 const menu = document.getElementById("menu");
 
+/**
+ * @returns {HTMLDivElement[]}
+ */
 export function getMenuButtons() {
     return Array.from(menu.querySelectorAll(".menu-item"));
 }
@@ -22,9 +25,23 @@ function onMenuButtonClick(event) {
     localStorage.setItem("section", id);
 }
 
+function onMenuToggle(event) {
+    const button = event.target;
+    const id = button.dataset.toggle;
+    window.dispatchEvent(
+        new CustomEvent("toggle", {
+            detail: {
+                button,
+                id,
+            },
+        })
+    );
+}
+
 export function initMenuButtons() {
     getMenuButtons().forEach((button) => {
-        button.addEventListener("click", onMenuButtonClick);
+        const fn = button.classList.contains("toggle") ? onMenuToggle : onMenuButtonClick;
+        button.addEventListener("click", fn);
     });
 
     const section = localStorage.getItem("section");
@@ -34,6 +51,8 @@ export function initMenuButtons() {
             button.click();
         }
     } else {
-        getMenuButtons()[0].click();
+        getMenuButtons()
+            .find((button) => !button.className.includes("toggle"))
+            .click();
     }
 }

@@ -9,10 +9,12 @@ async function ontTogglePortForward(event) {
     const name = checkbox.dataset.name;
     const enabled = checkbox.checked;
     checkbox.disabled = true;
+    const busy = await app.busy();
     const res = await togglePortForward(name, enabled);
     // console.log("res", res);
     // console.log(`Port forward ${name} is now ${enabled ? "enabled" : "disabled"}`);
     checkbox.disabled = false;
+    await app.unBusy(busy);
 }
 
 export function createPortForwardElement(name, enabled, port, ip) {
