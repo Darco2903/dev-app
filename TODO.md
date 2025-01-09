@@ -1,0 +1,4 @@
+-   [ ] prevent closing when busy
+-   [ ] fix refresh enable checkboxes when disabled
+-   [ ] add service toggle (sc start/stop service)
+-   [ ] add tunnel toggle (cloudflared tunnel start/stop)
