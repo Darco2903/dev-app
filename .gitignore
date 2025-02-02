@@ -6,4 +6,5 @@ config/*
 !config/app.json
 
 # build directory
+dist/
 out/
