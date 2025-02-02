@@ -19,8 +19,9 @@ const servers = new Map();
 const queue = new Map();
 
 async function initUniserverz() {
-    const p = SERVERS.map((s) => Uni.createUni(s.PATH, s.EXEC, s.APACHE, s.MYSQL).then((u) => servers.set(s.name, u)));
-    await Promise.all(p);
+    const p = SERVERS.map((s) => Uni.createUni(s.PATH));
+    const res = await Promise.all(p);
+    res.forEach((u, i) => servers.set(SERVERS[i].name, u));
 }
 
 ipcMain.handle("listDatabases", async () => {
