@@ -1,35 +1,36 @@
 {
-    "name": "dev-app",
-    "version": "0.4.1",
-    "main": "./electron/index.js",
-    "scripts": {
-        "start": "electron .",
-        "dev": "electron . dev",
-        "start-forge": "electron-forge start",
-        "package": "electron-forge package",
-        "make_": "electron-forge make",
-        "clean": "npx rm -s ./out"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
-    "dependencies": {
-        "console-log-colors": "^0.5.0",
-        "electron-settings": "^4.0.4",
-        "livebox": "file:../livebox/packages/livebox-0.1.1.tgz",
-        "uniserverz": "file:../uniserverz/dist/uniserverz-0.3.0.tgz"
-    },
-    "devDependencies": {
-        "@electron-forge/cli": "^7.5.0",
-        "@electron-forge/maker-deb": "^7.5.0",
-        "@electron-forge/maker-rpm": "^7.5.0",
-        "@electron-forge/maker-squirrel": "^7.5.0",
-        "@electron-forge/maker-zip": "^7.5.0",
-        "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
-        "@electron-forge/plugin-fuses": "^7.5.0",
-        "@electron/fuses": "^1.8.0",
-        "darco2903-os-command-kit": "file:../os-command-kit/packages/darco2903-os-command-kit-1.1.0.tgz",
-        "electron": "^33.2.0"
-    }
+  "name": "dev-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.6.0",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.2",
+    "@types/node": "^22.15.32",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.5.1",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.29.0",
+    "eslint-plugin-vue": "~10.2.0",
+    "jiti": "^2.4.2",
+    "npm-run-all2": "^8.0.4",
+    "prettier": "3.5.3",
+    "typescript": "~5.8.0",
+    "vite": "^7.0.0",
+    "vite-plugin-vue-devtools": "^7.7.7",
+    "vue-tsc": "^2.2.10"
+  }
 }
