@@ -1,6 +1,9 @@
 <script>
+import CloudflaredComp from "@comp/CloudflaredComp.vue";
+
 export default {
     components: {
+        CloudflaredComp,
     },
 
     data() {
@@ -13,6 +16,7 @@ export default {
 
 <template>
     <div class="app-container">
+        <CloudflaredComp />
     </div>
 </template>
 
