@@ -84,17 +84,49 @@ export default {
 
 <template>
     <div class="cloudflared-container">
-        <button @click="status" :disabled="busy || refreshBusy">Refresh</button>
-        <p>Tunnel Status: {{ tunnelStatusPretty }}</p>
-        <button @click="toggleTunnel(true)" :disabled="busy || tunnelStatus == 'RUNNING'">
-            Start Tunnel
-        </button>
-        <button @click="toggleTunnel(false)" :disabled="busy || tunnelStatus == 'STOPPED'">
-            Stop Tunnel
-        </button>
+        <h2>Cloudflared Tunnel</h2>
+
+        <div class="content">
+            <div class="container">
+                <button class="usr-btn" @click="status" :disabled="busy || refreshBusy">
+                    Refresh
+                </button>
+                <p>{{ tunnelStatusPretty }}</p>
+            </div>
+
+            <div class="container">
+                <button
+                    class="usr-btn"
+                    @click="toggleTunnel(true)"
+                    :disabled="busy || tunnelStatus == 'RUNNING'"
+                >
+                    Start Tunnel
+                </button>
+                <button
+                    class="usr-btn"
+                    @click="toggleTunnel(false)"
+                    :disabled="busy || tunnelStatus == 'STOPPED'"
+                >
+                    Stop Tunnel
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-/*  */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
 </style>

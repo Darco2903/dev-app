@@ -51,11 +51,16 @@ export default {
 
 <style>
 .app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #eee;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .loading {
@@ -66,7 +71,20 @@ export default {
     z-index: 1000;
 }
 
+.components {
+    width: 70%;
+    filter: none;
+    transition: filter 0.3s ease-in-out;
+}
+
 .components:not([ready="true"]) {
     filter: blur(2px);
+    pointer-events: none;
+}
+
+.components > *:not(:last-child) {
+    /* margin-bottom: 20px; */
+    padding-bottom: 20px;
+    border-bottom: 1px solid #aaa8;
 }
 </style>

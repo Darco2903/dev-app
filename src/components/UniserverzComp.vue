@@ -1,9 +1,15 @@
 <script>
-import * as uniserverz from "@mod/tauri/uniserverz";
 import { wait } from "web-common";
+import * as uniserverz from "@mod/tauri/uniserverz";
+
+import Checkbox from "@comp/Checkbox.vue";
 
 export default {
     name: "UniserverzComp",
+
+    components: {
+        Checkbox,
+    },
 
     data() {
         return {
@@ -70,6 +76,10 @@ export default {
                 });
             this.busy = false;
         },
+
+        test(e) {
+            console.log("Checkbox changed:", e);
+        },
     },
 
     async mounted() {
@@ -85,44 +95,84 @@ export default {
             <h2>Database</h2>
             <p>{{ name }}</p>
         </div>
-        <button @click="status" :disabled="busy || refreshBusy">Refresh</button>
-        <button @click="toggleUni(true)" :disabled="busy || isBothRunning">Start Database</button>
-        <button @click="toggleUni(false)" :disabled="busy || isBothStopped">Stop Database</button>
 
-        <div>
-            <label for="toggle-apache">Enable Apache</label>
-            <input
-                type="checkbox"
-                id="toggle-apache"
-                v-model="apacheStatus"
-                @change="toggleApache(apacheStatus)"
-                :disabled="busy"
-            />
-        </div>
+        <div class="content">
+            <div>
+                <button class="usr-btn" @click="status" :disabled="busy || refreshBusy">
+                    Refresh
+                </button>
+            </div>
 
-        <div>
-            <label for="toggle-mysql">Enable MySQL</label>
-            <input
-                type="checkbox"
-                id="toggle-mysql"
-                v-model="mysqlStatus"
-                @change="toggleMysql(mysqlStatus)"
-                :disabled="busy"
-            />
+            <div class="container both">
+                <button class="usr-btn" @click="toggleUni(true)" :disabled="busy || isBothRunning">
+                    Start Database
+                </button>
+                <button class="usr-btn" @click="toggleUni(false)" :disabled="busy || isBothStopped">
+                    Stop Database
+                </button>
+            </div>
+
+            <div class="container checkboxes">
+                <Checkbox @change.self="toggleApache" :checked="apacheStatus" :disabled="busy"
+                    >Apache</Checkbox
+                >
+
+                <Checkbox @change.self="toggleMysql" :checked="mysqlStatus" :disabled="busy"
+                    >MySQL</Checkbox
+                >
+
+                <!-- <div class="checkbox-container">
+                    <label for="toggle-apache">Apache</label>
+                    <input
+                        type="checkbox"
+                        id="toggle-apache"
+                        v-model="apacheStatus"
+                        @change="toggleApache(apacheStatus)"
+                        :disabled="busy"
+                    />
+                </div>
+
+                <div class="checkbox-container">
+                    <label for="toggle-mysql">MySQL</label>
+                    <input
+                        type="checkbox"
+                        id="toggle-mysql"
+                        v-model="mysqlStatus"
+                        @change="toggleMysql(mysqlStatus)"
+                        :disabled="busy"
+                    />
+                </div> -->
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-input[type="checkbox"]:not(:disabled) {
-    cursor: pointer;
-}
-
 .uniserverz-info {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.container.checkboxes {
+    margin-top: 14px;
+    gap: 20px;
 }
 </style>

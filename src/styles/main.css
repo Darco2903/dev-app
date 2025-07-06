@@ -86,6 +86,7 @@ body {
     color: #eee;
     background-color: #1f1d27;
     transition: border 0.2s;
+    user-select: none;
 }
 
 .usr-btn:hover {
