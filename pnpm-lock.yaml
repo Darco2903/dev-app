@@ -11,9 +11,15 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.6.0
         version: 2.6.0
+      '@tauri-apps/plugin-window-state':
+        specifier: ~2
+        version: 2.3.0
       vue:
         specifier: ^3.5.17
         version: 3.5.17(typescript@5.8.3)
+      web-common:
+        specifier: file:..\..\npm_packs\web-common-0.4.1.tgz
+        version: file:../../npm_packs/web-common-0.4.1.tgz
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.2
@@ -575,6 +581,9 @@ packages:
 
   '@tauri-apps/api@2.6.0':
     resolution: {integrity: sha512-hRNcdercfgpzgFrMXWwNDBN0B7vNzOzRepy6ZAmhxi5mDLVPNrTpo9MGg2tN/F7JRugj4d2aF7E1rtPXAHaetg==}
+
+  '@tauri-apps/plugin-window-state@2.3.0':
+    resolution: {integrity: sha512-BfhM0gm6jsF+VyYeOZ3eNqDfRJ2YPMh0a5qesD8AizVGv7wVB3cGLqh6EaeMpGl7y6kP9lvEMYkDRHuqKbcsgw==}
 
   '@tsconfig/node22@22.0.2':
     resolution: {integrity: sha512-Kmwj4u8sDRDrMYRoN9FDEcXD8UpBSaPQQ24Gz+Gamqfm7xxn+GBR7ge/Z7pK8OXNGyUzbSwJj+TH6B+DS/epyA==}
@@ -1591,6 +1600,10 @@ packages:
       typescript:
         optional: true
 
+  web-common@file:../../npm_packs/web-common-0.4.1.tgz:
+    resolution: {integrity: sha512-fckXrom0GDbIPipt2U4KNibOB7V3gcZTIWa/03fMUa9gmLuHWoCDTz4kptL2LEIQOubJxa297aVOZHjZ5J8PPg==, tarball: file:../../npm_packs/web-common-0.4.1.tgz}
+    version: 0.4.1
+
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
@@ -2061,6 +2074,10 @@ snapshots:
   '@sindresorhus/merge-streams@4.0.0': {}
 
   '@tauri-apps/api@2.6.0': {}
+
+  '@tauri-apps/plugin-window-state@2.3.0':
+    dependencies:
+      '@tauri-apps/api': 2.6.0
 
   '@tsconfig/node22@22.0.2': {}
 
@@ -3122,6 +3139,8 @@ snapshots:
       '@vue/shared': 3.5.17
     optionalDependencies:
       typescript: 5.8.3
+
+  web-common@file:../../npm_packs/web-common-0.4.1.tgz: {}
 
   which@2.0.2:
     dependencies:

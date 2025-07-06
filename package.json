@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^2.6.0",
-    "vue": "^3.5.17"
+    "@tauri-apps/plugin-window-state": "~2",
+    "vue": "^3.5.17",
+    "web-common": "file:..\\..\\npm_packs\\web-common-0.4.1.tgz"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

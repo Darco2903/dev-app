@@ -1,27 +1,27 @@
-use std::process::Command;
+use std::{os::windows::process::CommandExt, process::Command};
 
-#[derive(serde::Serialize, serde::Deserialize)]
-pub enum TTTT {
+#[derive(serde::Serialize)]
+pub enum Status {
     RUNNING,
     STOPPED,
     ERROR,
     UNKNOWN,
 }
 
-impl From<&str> for TTTT {
+impl From<&str> for Status {
     fn from(status: &str) -> Self {
         match status {
-            "RUNNING" => TTTT::RUNNING,
-            "STOPPED" => TTTT::STOPPED,
-            "ERROR" => TTTT::ERROR,
-            _ => TTTT::UNKNOWN,
+            "RUNNING" => Status::RUNNING,
+            "STOPPED" => Status::STOPPED,
+            "ERROR" => Status::ERROR,
+            _ => Status::UNKNOWN,
         }
     }
 }
 
 #[tauri::command]
-pub fn toggle(eanble: bool) -> Result<(), String> {
-    let status = if eanble { "start" } else { "stop" };
+pub fn cloudflared_toggle(enable: bool) -> Result<(), String> {
+    let status = if enable { "start" } else { "stop" };
     let arg: String = format!(
         "Start-Process cmd -Verb RunAs -ArgumentList '/c sc {} cloudflared' -WindowStyle Hidden",
         status
@@ -30,6 +30,7 @@ pub fn toggle(eanble: bool) -> Result<(), String> {
     let output = Command::new("powershell")
         .arg("-Command")
         .arg(arg)
+        .creation_flags(0x08000000) // CREATE_NO_WINDOW
         .output()
         .map_err(|e| format!("Failed to execute cloudflared: {}", e))?;
 
@@ -46,10 +47,11 @@ pub fn toggle(eanble: bool) -> Result<(), String> {
 
 // #[tauri::command(rename = "cloudflared_status")]
 #[tauri::command]
-pub fn status() -> Result<TTTT, String> {
+pub fn cloudflared_status() -> Result<Status, String> {
     let output = Command::new("sc")
         .arg("query")
         .arg("cloudflared")
+        .creation_flags(0x08000000) // CREATE_NO_WINDOW
         .output()
         .map_err(|e| format!("Failed to query cloudflared status: {}", e))?;
 
@@ -68,5 +70,5 @@ pub fn status() -> Result<TTTT, String> {
     let status = line.split_ascii_whitespace().last().unwrap_or("UNKNOWN");
     println!("State: {}", status);
 
-    Ok(TTTT::from(status))
+    Ok(Status::from(status))
 }
