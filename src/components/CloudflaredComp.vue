@@ -7,12 +7,16 @@ export default {
 
     data() {
         return {
-            // ready: false,
-
-            tunnelStatus: "Unknown", // Initial status
+            tunnelStatus: "Initializing",
             busy: false,
             refreshBusy: false,
         };
+    },
+
+    computed: {
+        tunnelStatusPretty() {
+            return this.tunnelStatus.capitalizeFirstLetter();
+        },
     },
 
     methods: {
@@ -39,17 +43,24 @@ export default {
                 .toggle(enable)
                 .then(async () => {
                     let attempts = 0;
+                    let status;
                     const maxAttempts = 5; // Limit to avoid infinite loop
                     const expectedStatus = enable ? "RUNNING" : "STOPPED";
 
+                    this.tunnelStatus = enable ? "Starting" : "Stopping";
+
                     do {
                         await wait(500);
-                        await this.status();
-                    } while (this.tunnelStatus !== expectedStatus && attempts++ < maxAttempts);
+                        // await this.status();
 
-                    if (this.tunnelStatus !== expectedStatus) {
+                        status = await cloudflared.status();
+                    } while (status !== expectedStatus && attempts++ < maxAttempts);
+
+                    this.tunnelStatus = status;
+
+                    if (status !== expectedStatus) {
                         console.warn(
-                            `Tunnel did not reach expected status: ${expectedStatus} after ${attempts} attempts. Current status: ${this.tunnelStatus}`,
+                            `Tunnel did not reach expected status: ${expectedStatus} after ${attempts} attempts. Current status: ${status}`,
                         );
                     } else {
                         console.log(
@@ -66,7 +77,6 @@ export default {
 
     async mounted() {
         await this.status();
-        // this.ready = true;
         this.$emit("ready");
     },
 };
@@ -75,7 +85,7 @@ export default {
 <template>
     <div class="cloudflared-container">
         <button @click="status" :disabled="busy || refreshBusy">Refresh</button>
-        <p>Tunnel Status: {{ tunnelStatus }}</p>
+        <p>Tunnel Status: {{ tunnelStatusPretty }}</p>
         <button @click="toggleTunnel(true)" :disabled="busy || tunnelStatus == 'RUNNING'">
             Start Tunnel
         </button>

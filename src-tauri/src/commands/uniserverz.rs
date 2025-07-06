@@ -1,24 +1,11 @@
 use crate::state::AppState;
+use crate::uniserverz::UNI_CONFIG;
 use crate::uniserverz::{info::UniServerzInfo, uni::Uni};
-use std::fs;
-use std::path::PathBuf;
 use tauri::Manager;
 
-pub fn init_uni(p: &str) -> Result<Uni, String> {
-    let config_path = PathBuf::from(p).join("uniserverz.json");
-    if !config_path.exists() {
-        return Err(format!(
-            "Config file not found at: {}",
-            config_path.to_string_lossy()
-        ));
-    }
-
-    let config = fs::read_to_string(&config_path)
-        .map_err(|e| format!("Failed to read config file: {}", e))?;
-    // println!("Config file content: {}", config);
-
-    let json: serde_json::Value =
-        serde_json::from_str(&config).map_err(|e| format!("Failed to parse config file: {}", e))?;
+pub fn init_uni() -> Result<Uni, String> {
+    let json: serde_json::Value = serde_json::from_str(&UNI_CONFIG)
+        .map_err(|e| format!("Failed to parse config file: {}", e))?;
 
     let name = json["name"]
         .as_str()

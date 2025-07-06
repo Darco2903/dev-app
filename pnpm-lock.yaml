@@ -18,8 +18,8 @@ importers:
         specifier: ^3.5.17
         version: 3.5.17(typescript@5.8.3)
       web-common:
-        specifier: file:..\..\npm_packs\web-common-0.4.1.tgz
-        version: file:../../npm_packs/web-common-0.4.1.tgz
+        specifier: file:..\..\npm_packs\web-common-0.4.2.tgz
+        version: file:../../npm_packs/web-common-0.4.2.tgz
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.2
@@ -1600,9 +1600,9 @@ packages:
       typescript:
         optional: true
 
-  web-common@file:../../npm_packs/web-common-0.4.1.tgz:
-    resolution: {integrity: sha512-fckXrom0GDbIPipt2U4KNibOB7V3gcZTIWa/03fMUa9gmLuHWoCDTz4kptL2LEIQOubJxa297aVOZHjZ5J8PPg==, tarball: file:../../npm_packs/web-common-0.4.1.tgz}
-    version: 0.4.1
+  web-common@file:../../npm_packs/web-common-0.4.2.tgz:
+    resolution: {integrity: sha512-02vDBBvreup2mNeIld/S6k6QBJ7oSCxayTye09vj3pe3/3Swhu6M3pY+XBFz7TuVXMkeTweaEO6maWMEJJMd8Q==, tarball: file:../../npm_packs/web-common-0.4.2.tgz}
+    version: 0.4.2
 
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
@@ -3140,7 +3140,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  web-common@file:../../npm_packs/web-common-0.4.1.tgz: {}
+  web-common@file:../../npm_packs/web-common-0.4.2.tgz: {}
 
   which@2.0.2:
     dependencies:

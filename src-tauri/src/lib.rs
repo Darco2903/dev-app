@@ -5,7 +5,6 @@ mod uniserverz;
 use crate::commands::uniserverz::init_uni;
 use state::AppState;
 use tauri::{
-    path::BaseDirectory,
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
     Manager, WindowEvent,
 };
@@ -70,19 +69,7 @@ pub fn run() {
                 .set_maximizable(false)
                 .expect("Failed to set window minimizable");
 
-            window
-                .set_resizable(false)
-                .expect("Failed to set window resizable");
-
-            let pb = app
-                .path()
-                .resolve("config", BaseDirectory::Resource)
-                .expect("Failed to get app data directory");
-
-            println!("App data directory: {}", pb.to_string_lossy());
-
-            let p = pb.to_str().expect("Failed to convert path to string");
-            let uni = init_uni(p).expect("Failed to initialize Uni instance");
+            let uni = init_uni().expect("Failed to initialize Uni instance");
             let state = AppState::new(uni);
             app.manage(state);
 

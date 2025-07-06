@@ -7,8 +7,6 @@ export default {
 
     data() {
         return {
-            // ready: false,
-
             name: "",
             apacheStatus: false,
             mysqlStatus: false,
@@ -76,7 +74,6 @@ export default {
 
     async mounted() {
         await this.status();
-        // this.ready = true;
         this.$emit("ready");
     },
 };
