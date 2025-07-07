@@ -1,66 +1,45 @@
 # dev-app
 
-DevApp created to access and toggle dev tools faster
+Dev App created to access and toggle dev tools faster
 
-## How to use
+# Features
 
-1. Create [**cloudflared.json**](./config/cloudflared.json), [**uniserverz.json**](./config/uniserverz.json) and [**livebox.json**](./config/livebox.json) files in the **config** folder with the following structure:
+- Toggle Cloudflared Tunnel
+- Toggle Uniserver Database (Apache & MySQL)
 
-**uniserverz.json**
+# Requirements
 
-```json
-[
-    {
-        "name": "DATABASE_NAME",
-        "PATH": "PATH_TO_DATABASE",
-        "EXEC": "CONTROLLER_EXECUTABLE",
-        "APACHE": "APACHE_EXUTABLE",
-        "MYSQL": "MYSQL_EXUTABLE"
-    },
-    ...
-]
-```
+- [Node.js](https://nodejs.org/) (version 22 or later)
+- [Rust](https://www.rust-lang.org/) (version 1.70 or later)
 
-**livebox.json**
+# Installation
 
-```json
-{
-    "username": "USERNAME",
-    "password": "PASSWORD"
-}
-```
+Simply run the installer which can be found in the [**Releases**](https://github.com/Darco2903/dev-app/releases) section.
 
-2. Run the app with the following command:
+# Build
+
+To build the application, run the following command:
 
 ```bash
-npm start
+npm install
 ```
 
-## Old Features
-
-### CloudFront
-
-Create [**aws.json**](./config/aws.json) file in the **config** folder with the following structure:
-
-**aws.json**
-
-```json
-{
-    "accessKeyId": "ACCESS_KEY_ID",
-    "secretAccessKey": "SECRET_ACCESS"
-}
-```
-
-The next step is to uncomment the following lines:
-
--   [**index.html**](./electron/browser/index.html#L10)
--   [**index.js**](./electron/window/index.js#L5)
--   [**index.js**](./electron/browser/js/main/index.js#L2)
--   [**index.js**](./electron/browser/js/main/index.js#L62)
--   [**index.js**](./electron/browser/css/main/index.css#L3)
-
-The last step is to install the following dependencies:
+or
 
 ```bash
-npm install @aws-sdk/client-cloudfront
+pnpm install
+```
+
+Then, to build the application, run:
+
+```bash
+cargo tauri build
+```
+
+# Run
+
+To run the application in development mode, use:
+
+```bash
+cargo tauri dev
 ```
