@@ -1,6 +1,5 @@
-use tokio::sync::Mutex;
-
 use crate::uniserverz::uni::Uni;
+use tokio::sync::Mutex;
 
 pub struct AppState {
     pub uni: Mutex<Uni>,

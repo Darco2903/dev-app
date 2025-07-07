@@ -11,6 +11,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.6.0
         version: 2.6.0
+      '@tauri-apps/plugin-dialog':
+        specifier: ~2.3.0
+        version: 2.3.0
       '@tauri-apps/plugin-window-state':
         specifier: ~2
         version: 2.3.0
@@ -581,6 +584,9 @@ packages:
 
   '@tauri-apps/api@2.6.0':
     resolution: {integrity: sha512-hRNcdercfgpzgFrMXWwNDBN0B7vNzOzRepy6ZAmhxi5mDLVPNrTpo9MGg2tN/F7JRugj4d2aF7E1rtPXAHaetg==}
+
+  '@tauri-apps/plugin-dialog@2.3.0':
+    resolution: {integrity: sha512-ylSBvYYShpGlKKh732ZuaHyJ5Ie1JR71QCXewCtsRLqGdc8Is4xWdz6t43rzXyvkItM9syNPMvFVcvjgEy+/GA==}
 
   '@tauri-apps/plugin-window-state@2.3.0':
     resolution: {integrity: sha512-BfhM0gm6jsF+VyYeOZ3eNqDfRJ2YPMh0a5qesD8AizVGv7wVB3cGLqh6EaeMpGl7y6kP9lvEMYkDRHuqKbcsgw==}
@@ -2074,6 +2080,10 @@ snapshots:
   '@sindresorhus/merge-streams@4.0.0': {}
 
   '@tauri-apps/api@2.6.0': {}
+
+  '@tauri-apps/plugin-dialog@2.3.0':
+    dependencies:
+      '@tauri-apps/api': 2.6.0
 
   '@tauri-apps/plugin-window-state@2.3.0':
     dependencies:

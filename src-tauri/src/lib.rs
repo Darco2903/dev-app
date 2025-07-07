@@ -8,23 +8,24 @@ use tauri::{
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
     Manager, WindowEvent,
 };
-use tauri_plugin_window_state::{AppHandleExt, StateFlags, WindowExt};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_window_state::Builder::new().build())
+        .plugin(tauri_plugin_single_instance::init(|app, _, _| {
+            app.get_webview_window("main")
+                .expect("Failed to get main window")
+                .set_focus()
+                .expect("Failed to focus main window");
+        }))
         .on_window_event(|window, event| {
             // listen on minimize, maximize, and close events
             match event {
-                WindowEvent::CloseRequested { api, .. } => {
-                    // Save the window state before closing
-                    api.prevent_close();
-                    let app = window.app_handle();
-                    app.save_window_state(StateFlags::all())
-                        .expect("Failed to save window state");
-
-                    std::process::exit(0);
+                WindowEvent::CloseRequested { .. } => {
+                    // Wait for lock to be released before closing
+                    let state = window.state::<AppState>();
+                    let _ = state.uni.blocking_lock();
                 }
 
                 WindowEvent::Resized(new_inner_size) => {
@@ -32,7 +33,6 @@ pub fn run() {
                         window.hide().expect("Failed to hide window");
                     }
                 }
-
                 _ => {}
             }
         })
@@ -44,6 +44,7 @@ pub fn run() {
                     if let Some(window) = windows.get("main") {
                         window.show().expect("Failed to show window");
                         window.unminimize().expect("Failed to unminimize window");
+                        window.set_focus().expect("Failed to focus window");
                     }
                 }
             }
@@ -56,19 +57,8 @@ pub fn run() {
             commands::uniserverz::uniserverz_toggle_both,
             commands::uniserverz::uniserverz_toggle_apache,
             commands::uniserverz::uniserverz_toggle_mysql,
-            // commands::uniserverz::get_uni,
         ])
         .setup(|app| {
-            let windows = app.webview_windows();
-            let window = windows.get("main").unwrap();
-            window
-                .restore_state(StateFlags::all())
-                .expect("Failed to restore window state");
-
-            window
-                .set_maximizable(false)
-                .expect("Failed to set window minimizable");
-
             let uni = init_uni().expect("Failed to initialize Uni instance");
             let state = AppState::new(uni);
             app.manage(state);

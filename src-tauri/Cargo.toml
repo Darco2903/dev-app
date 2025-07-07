@@ -1,6 +1,6 @@
 [package]
     name = "dev-app"
-    version = "0.5.0"
+    version = "0.5.1"
     description = "Dev App"
     authors = [
         "Darco2903"
@@ -32,4 +32,5 @@
     tokio = "1.46.1"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+    tauri-plugin-single-instance = "2"
     tauri-plugin-window-state = "2"
