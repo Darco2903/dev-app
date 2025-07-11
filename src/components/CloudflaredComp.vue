@@ -97,17 +97,17 @@ export default {
             <div class="container">
                 <button
                     class="usr-btn"
-                    @click="toggleTunnel(true)"
-                    :disabled="busy || tunnelStatus == 'RUNNING'"
-                >
-                    Start Tunnel
-                </button>
-                <button
-                    class="usr-btn"
                     @click="toggleTunnel(false)"
                     :disabled="busy || tunnelStatus == 'STOPPED'"
                 >
                     Stop Tunnel
+                </button>
+                <button
+                    class="usr-btn"
+                    @click="toggleTunnel(true)"
+                    :disabled="busy || tunnelStatus == 'RUNNING'"
+                >
+                    Start Tunnel
                 </button>
             </div>
         </div>

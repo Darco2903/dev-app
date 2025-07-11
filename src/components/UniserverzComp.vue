@@ -22,11 +22,11 @@ export default {
     },
 
     computed: {
-        isBothRunning() {
+        areBothRunning() {
             return this.apacheStatus && this.mysqlStatus;
         },
 
-        isBothStopped() {
+        areBothStopped() {
             return !this.apacheStatus && !this.mysqlStatus;
         },
     },
@@ -104,11 +104,19 @@ export default {
             </div>
 
             <div class="container both">
-                <button class="usr-btn" @click="toggleUni(true)" :disabled="busy || isBothRunning">
-                    Start Database
-                </button>
-                <button class="usr-btn" @click="toggleUni(false)" :disabled="busy || isBothStopped">
+                <button
+                    class="usr-btn"
+                    @click="toggleUni(false)"
+                    :disabled="busy || areBothStopped || !areBothRunning"
+                >
                     Stop Database
+                </button>
+                <button
+                    class="usr-btn"
+                    @click="toggleUni(true)"
+                    :disabled="busy || areBothRunning || !areBothStopped"
+                >
+                    Start Database
                 </button>
             </div>
 
@@ -120,28 +128,6 @@ export default {
                 <Checkbox @change.self="toggleMysql" :checked="mysqlStatus" :disabled="busy"
                     >MySQL</Checkbox
                 >
-
-                <!-- <div class="checkbox-container">
-                    <label for="toggle-apache">Apache</label>
-                    <input
-                        type="checkbox"
-                        id="toggle-apache"
-                        v-model="apacheStatus"
-                        @change="toggleApache(apacheStatus)"
-                        :disabled="busy"
-                    />
-                </div>
-
-                <div class="checkbox-container">
-                    <label for="toggle-mysql">MySQL</label>
-                    <input
-                        type="checkbox"
-                        id="toggle-mysql"
-                        v-model="mysqlStatus"
-                        @change="toggleMysql(mysqlStatus)"
-                        :disabled="busy"
-                    />
-                </div> -->
             </div>
         </div>
     </div>

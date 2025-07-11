@@ -1,0 +1,5 @@
+- [x] prevent close when busy
+- [x] start/stop database only if apache and mysql are stopped/started
+- [x] invert start/stop database and cloudflared
+- [x] prevent context
+- [x] prevent F5 refresh
