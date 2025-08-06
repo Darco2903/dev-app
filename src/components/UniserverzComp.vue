@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { wait } from "web-common";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
@@ -44,7 +44,7 @@ export default {
             this.refreshBusy = false;
         },
 
-        async toggleUni(enable) {
+        async toggleUni(enable: boolean) {
             this.busy = true;
             await uniserverz
                 .toggleBoth(enable)
@@ -55,7 +55,7 @@ export default {
             this.busy = false;
         },
 
-        async toggleApache(enable) {
+        async toggleApache(enable: boolean) {
             this.busy = true;
             await uniserverz
                 .toggleApache(enable)
@@ -66,7 +66,7 @@ export default {
             this.busy = false;
         },
 
-        async toggleMysql(enable) {
+        async toggleMysql(enable: boolean) {
             this.busy = true;
             await uniserverz
                 .toggleMysql(enable)
@@ -75,10 +75,6 @@ export default {
                     console.error("Error toggling MySQL:", err);
                 });
             this.busy = false;
-        },
-
-        test(e) {
-            console.log("Checkbox changed:", e);
         },
     },
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { wait } from "web-common";
 import * as cloudflared from "@mod/tauri/cloudflared";
 
@@ -32,7 +32,7 @@ export default {
             this.refreshBusy = false;
         },
 
-        async toggleTunnel(enable) {
+        async toggleTunnel(enable: boolean) {
             if (this.busy) {
                 console.warn("Toggle operation is already in progress.");
                 return;

@@ -1,39 +1,24 @@
-<script>
+<script setup lang="ts">
+import { computed, ref, onMounted } from "vue";
 import { wait } from "web-common";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
 import CloudflaredComp from "@comp/CloudflaredComp.vue";
 import UniserverzComp from "@comp/UniserverzComp.vue";
 
-export default {
-    name: "App",
+const preLoad = ref(false);
+const cloudflaredReady = ref(false);
+const uniserverzReady = ref(false);
 
-    components: {
-        SpinnerLoader,
-        CloudflaredComp,
-        UniserverzComp,
-    },
+const ready = computed(() => {
+    return preLoad.value && cloudflaredReady.value && uniserverzReady.value;
+});
 
-    data() {
-        return {
-            preLoad: false,
-            cloudflaredReady: false,
-            uniserverzReady: false,
-        };
-    },
-
-    computed: {
-        ready() {
-            return this.preLoad && this.cloudflaredReady && this.uniserverzReady;
-        },
-    },
-
-    mounted() {
-        wait(1500).then(() => {
-            this.preLoad = true;
-        });
-    },
-};
+onMounted(() => {
+    wait(1500).then(() => {
+        preLoad.value = true;
+    });
+});
 </script>
 
 <template>

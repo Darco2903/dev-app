@@ -1,6 +1,4 @@
-<script>
-import { emit } from "@tauri-apps/api/event";
-
+<script lang="ts">
 export default {
     name: "Checkbox",
 
