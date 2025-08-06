@@ -2,9 +2,9 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
-      - git-test
+    # branches:
+    #   - main
+    #   - git-test
     # tags:
     #   - "v*" # Trigger on version tags
 
