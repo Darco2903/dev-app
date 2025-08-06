@@ -42,12 +42,20 @@ jobs:
     # - name: Build project
     #   run: pnpm pack
 
-    - uses: actions-rs/toolchain@v1
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
+        override: true
+
+    - name: Build Tauri application
+      run: |
+        cargo install tauri-cli --locked
+        cargo tauri deps --install
+
     - uses: actions-rs/cargo@v1
       with:
-        command: build
+        command: tauri build
         args: --release --all-features
 
     # - name: Upload release asset
