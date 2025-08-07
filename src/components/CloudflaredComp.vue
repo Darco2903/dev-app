@@ -1,5 +1,5 @@
 <script lang="ts">
-import { wait } from "@darco2903/web-common";
+import { wait } from "web-common";
 import * as cloudflared from "@mod/tauri/cloudflared";
 
 export default {

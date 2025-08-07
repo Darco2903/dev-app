@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
-import { wait } from "@darco2903/web-common";
+import { wait } from "web-common";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
 import CloudflaredComp from "@comp/CloudflaredComp.vue";
