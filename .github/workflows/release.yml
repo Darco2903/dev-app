@@ -29,6 +29,9 @@ jobs:
             args: ''
 
     runs-on: ${{ matrix.platform }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
 
