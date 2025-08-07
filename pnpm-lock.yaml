@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@darco2903/web-common':
+        specifier: 0.6.0
+        version: 0.6.0
       '@tauri-apps/api':
         specifier: ^2.6.0
         version: 2.6.0
@@ -20,9 +23,6 @@ importers:
       vue:
         specifier: ^3.5.17
         version: 3.5.17(typescript@5.8.3)
-      web-common:
-        specifier: file:..\..\npm_packs\content\web-common-0.5.1.tgz
-        version: file:../../npm_packs/content/web-common-0.5.1.tgz
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.2
@@ -218,6 +218,9 @@ packages:
   '@babel/types@7.28.0':
     resolution: {integrity: sha512-jYnje+JyZG5YThjHiF28oT4SIZLnYOcSBb6+SDaFIyzDVSkXQmQQYclJ2R+YxcdmK0AX6x1E5OQNtuh3jHDrUg==}
     engines: {node: '>=6.9.0'}
+
+  '@darco2903/web-common@0.6.0':
+    resolution: {integrity: sha512-X5CRajBoUAIQc5pxUkgIxUOBfIZsW5wWulD2LXfzvfjUSif2U8Z5Qr8KjPbuPcpq16O8qs/8MEuwUkPlNNalfA==, tarball: https://npm.pkg.github.com/download/@darco2903/web-common/0.6.0/93ef7a791f453d7dc8a23f2534447c275ee95480}
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -1606,10 +1609,6 @@ packages:
       typescript:
         optional: true
 
-  web-common@file:../../npm_packs/content/web-common-0.5.1.tgz:
-    resolution: {integrity: sha512-DpDX4jJ7UvSLFmPYdMLLuUtBCDEtI5pNFd+fjnpkASSoQ3LJ1HHsFCwe7wsz1rJsugJtLQAI6RDHTzVAqIEo4w==, tarball: file:../../npm_packs/content/web-common-0.5.1.tgz}
-    version: 0.5.1
-
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
@@ -1838,6 +1837,8 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
+
+  '@darco2903/web-common@0.6.0': {}
 
   '@esbuild/aix-ppc64@0.25.5':
     optional: true
@@ -3149,8 +3150,6 @@ snapshots:
       '@vue/shared': 3.5.17
     optionalDependencies:
       typescript: 5.8.3
-
-  web-common@file:../../npm_packs/content/web-common-0.5.1.tgz: {}
 
   which@2.0.2:
     dependencies:

@@ -17,7 +17,7 @@
     "@tauri-apps/plugin-dialog": "~2.3.0",
     "@tauri-apps/plugin-window-state": "~2",
     "vue": "^3.5.17",
-    "web-common": "file:..\\..\\npm_packs\\content\\web-common-0.5.1.tgz"
+    "@darco2903/web-common": "0.6.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

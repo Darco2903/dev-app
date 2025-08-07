@@ -1,5 +1,5 @@
 <script lang="ts">
-import { wait } from "web-common";
+import { wait } from "@darco2903/web-common";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
 import Checkbox from "@comp/Checkbox.vue";
