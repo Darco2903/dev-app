@@ -48,6 +48,7 @@ export default {
             this.busy = true;
             await uniserverz
                 .toggleBoth(enable)
+                .then(()=> wait(500))
                 .then(this.status)
                 .catch((err) => {
                     console.error("Error toggling UniServerZ:", err);
