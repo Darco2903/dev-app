@@ -6,7 +6,7 @@ import { useI18n } from "vue-i18n";
 import NavigationButton from "@comp/NavigationButton.vue";
 
 import Home1 from "@icons/home-1.svg";
-import Server1 from "@icons/server-1.svg";
+import Server1 from "@icons/dns-1.svg";
 import Settings1 from "@icons/settings-1.svg";
 
 const router = useRouter();
@@ -63,26 +63,8 @@ const { t } = useI18n();
 </template>
 
 <style scoped>
-/* .overview-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: calc(100% - 2 * 40px - 2 * 160px);
-    width: calc(100% - 2 * 40px - 2 * 40px);
-    max-width: 800px;
-    min-width: 580px;
-    padding: 20px 30px;
-    border-radius: 25px;
-    background-color: var(--bg);
-    box-shadow: 0 4px 30px var(--box-shadow);
-    transition: background-color 0.2s ease;
-} */
-
 .overview-content {
-    /* height: calc(100% - 102px); */
-     /* 82px (UpperPanel height) - 20px */
-     gap: 20px;
+    gap: 20px;
 }
 
 .left {
@@ -92,13 +74,10 @@ const { t } = useI18n();
 
 .right {
     flex: 5;
-    /* border-radius: 15px; */
-    /* background-color: blue; */
 }
 
 .nav-bar-content {
     margin-top: 40px;
     gap: 12px;
-    /* background-color: red; */
 }
 </style>
