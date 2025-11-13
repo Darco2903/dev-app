@@ -1,10 +1,22 @@
 import { createApp } from "vue";
+import { router } from "@router/index";
+import { getLocale, i18n } from "./locales";
+import { getTheme, setTheme } from "./modules/themes";
 
 import App from "./App.vue";
 
-import "@styles/main.css";
+import "@styles/style.css";
+import { store } from "./store/store";
 
-createApp(App).mount("#app");
+store.state.language = getLocale();
+store.state.theme = await getTheme();
+setTheme(store.state.theme);
+
+createApp(App)
+    //
+    .use(router)
+    .use(i18n)
+    .mount("#app");
 
 window.addEventListener("contextmenu", (event) => {
     event.preventDefault();

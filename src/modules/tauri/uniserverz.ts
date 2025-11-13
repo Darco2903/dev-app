@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 
-type UniServerzInfo = {
+export type UniServerzInfo = {
     name: string;
     apache: boolean;
     mysql: boolean;

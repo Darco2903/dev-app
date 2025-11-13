@@ -1,36 +1,28 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import { RouterView } from "vue-router";
 import { wait } from "web-common";
+import { preload } from "./modules/preload";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
-import CloudflaredComp from "@comp/CloudflaredComp.vue";
-import UniserverzComp from "@comp/UniserverzComp.vue";
 
 const preLoad = ref(false);
-const cloudflaredReady = ref(false);
-const uniserverzReady = ref(false);
 
-const ready = computed(() => {
-    return preLoad.value && cloudflaredReady.value && uniserverzReady.value;
-});
-
-onMounted(() => {
-    wait(1500).then(() => {
-        preLoad.value = true;
-    });
+onMounted(async () => {
+    const p1 = preload();
+    const p2 = wait(1500);
+    await Promise.all([p1, p2]);
+    preLoad.value = true;
 });
 </script>
 
 <template>
     <div class="app-container">
-        <div class="l">
-            <SpinnerLoader class="loading" size="100px" v-show="!ready" />
+        <div>
+            <SpinnerLoader class="loading" size="100px" v-show="!preLoad" />
         </div>
 
-        <div class="components" :ready>
-            <CloudflaredComp ref="cloudflared" @ready="cloudflaredReady = true" />
-            <UniserverzComp ref="uniserverz" @ready="uniserverzReady = true" />
-        </div>
+        <RouterView class="components" :ready="preLoad" />
     </div>
 </template>
 
@@ -43,9 +35,9 @@ onMounted(() => {
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #eee;
-    margin-top: 40px;
+    /* margin-top: 40px; */
+    margin: 40px;
 }
 
 .loading {
@@ -54,22 +46,17 @@ onMounted(() => {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+    text-align: center;
 }
 
 .components {
-    width: 70%;
+    width: 100%;
     filter: none;
     transition: filter 0.3s ease-in-out;
 }
 
-.components:not([ready="true"]) {
+.components[ready="false"] {
     filter: blur(2px);
     pointer-events: none;
-}
-
-.components > *:not(:last-child) {
-    /* margin-bottom: 20px; */
-    padding-bottom: 20px;
-    border-bottom: 1px solid #aaa8;
 }
 </style>

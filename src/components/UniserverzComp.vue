@@ -1,96 +1,81 @@
-<script lang="ts">
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import { wait } from "web-common";
+import { store } from "@store/store";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
 import Checkbox from "@comp/Checkbox.vue";
 
-export default {
-    name: "UniserverzComp",
+const state = store.state;
 
-    components: {
-        Checkbox,
-    },
+const busy = ref(false);
+const refreshBusy = ref(false);
 
-    data() {
-        return {
-            name: "",
-            apacheStatus: false,
-            mysqlStatus: false,
-            busy: false,
-            refreshBusy: false,
-        };
-    },
+const areBothRunning = computed(() => {
+    return state.dbInfo.apache && state.dbInfo.mysql;
+});
 
-    computed: {
-        areBothRunning() {
-            return this.apacheStatus && this.mysqlStatus;
-        },
+const areBothStopped = computed(() => {
+    return !state.dbInfo.apache && !state.dbInfo.mysql;
+});
 
-        areBothStopped() {
-            return !this.apacheStatus && !this.mysqlStatus;
-        },
-    },
+async function status() {
+    refreshBusy.value = true;
+    const p = wait(1000);
+    state.dbInfo = await uniserverz.info();
 
-    methods: {
-        async status() {
-            this.refreshBusy = true;
-            const p = wait(1000);
-            const info = await uniserverz.info();
-            this.name = info.name;
-            this.apacheStatus = info.apache;
-            this.mysqlStatus = info.mysql;
+    await p;
+    refreshBusy.value = false;
+}
 
-            await p;
-            this.refreshBusy = false;
-        },
+async function toggleUni(enable: boolean) {
+    busy.value = true;
+    await uniserverz
+        .toggleBoth(enable)
+        .then(() => wait(500))
+        .then(status)
+        .catch((err) => {
+            console.error("Error toggling UniServerZ:", err);
+        });
+    busy.value = false;
+}
 
-        async toggleUni(enable: boolean) {
-            this.busy = true;
-            await uniserverz
-                .toggleBoth(enable)
-                .then(() => wait(500))
-                .then(this.status)
-                .catch((err) => {
-                    console.error("Error toggling UniServerZ:", err);
-                });
-            this.busy = false;
-        },
+async function toggleApache(enable: boolean) {
+    busy.value = true;
+    await uniserverz
+        .toggleApache(enable)
+        .then(status)
+        .catch((err) => {
+            console.error("Error toggling Apache:", err);
+        });
+    busy.value = false;
+}
 
-        async toggleApache(enable: boolean) {
-            this.busy = true;
-            await uniserverz
-                .toggleApache(enable)
-                .then(this.status)
-                .catch((err) => {
-                    console.error("Error toggling Apache:", err);
-                });
-            this.busy = false;
-        },
+async function toggleMysql(enable: boolean) {
+    busy.value = true;
+    await uniserverz
+        .toggleMysql(enable)
+        .then(status)
+        .catch((err) => {
+            console.error("Error toggling MySQL:", err);
+        });
+    busy.value = false;
+}
 
-        async toggleMysql(enable: boolean) {
-            this.busy = true;
-            await uniserverz
-                .toggleMysql(enable)
-                .then(this.status)
-                .catch((err) => {
-                    console.error("Error toggling MySQL:", err);
-                });
-            this.busy = false;
-        },
-    },
+const emit = defineEmits<{
+    ready: [];
+}>();
 
-    async mounted() {
-        await this.status();
-        this.$emit("ready");
-    },
-};
+status().then(() => {
+    emit("ready");
+});
 </script>
 
 <template>
     <div class="uniserverz-container">
-        <div class="uniserverz-info">
-            <h2>Database</h2>
-            <p>{{ name }}</p>
+        <div class="uniserverz-info flex row">
+            <h2 class="text">Database</h2>
+            <p class="text" style="font-weight: 500">{{ state.dbInfo.name }}</p>
         </div>
 
         <div class="content">
@@ -118,11 +103,21 @@ export default {
             </div>
 
             <div class="container checkboxes">
-                <Checkbox @change.self="toggleApache" :checked="apacheStatus" :disabled="busy"
+                <Checkbox
+                    class="text"
+                    style="font-weight: 500"
+                    @change.self="toggleApache"
+                    :checked="state.dbInfo.apache"
+                    :disabled="busy"
                     >Apache</Checkbox
                 >
 
-                <Checkbox @change.self="toggleMysql" :checked="mysqlStatus" :disabled="busy"
+                <Checkbox
+                    class="text"
+                    style="font-weight: 500"
+                    @change.self="toggleMysql"
+                    :checked="state.dbInfo.mysql"
+                    :disabled="busy"
                     >MySQL</Checkbox
                 >
             </div>

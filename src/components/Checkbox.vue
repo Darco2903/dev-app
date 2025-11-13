@@ -1,57 +1,50 @@
-<script lang="ts">
-export default {
-    name: "Checkbox",
+<script setup lang="ts">
+import { ref, watch } from "vue";
 
-    props: {
-        checked: {
-            type: Boolean,
-            default: false,
-        },
-
-        size: {
-            type: String,
-            default: "30px",
-        },
-
-        haloSize: {
-            type: String,
-            default: "14px",
-        },
-
-        spread: {
-            type: String,
-            default: "8px",
-        },
-
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
+const { checked, size, haloSize, spread, disabled } = defineProps({
+    checked: {
+        type: Boolean,
+        default: false,
     },
 
-    data() {
-        return {
-            vChecked: this.checked,
-            id: `checkbox-${Math.random().toString(36).substr(2, 9)}`,
-        };
+    size: {
+        type: String,
+        default: "30px",
     },
 
-    watch: {
-        checked(newVal) {
-            this.vChecked = newVal;
-        },
+    haloSize: {
+        type: String,
+        default: "14px",
     },
 
-    methods: {
-        onChange() {
-            this.$emit("change", !this.checked);
-        },
+    spread: {
+        type: String,
+        default: "8px",
     },
 
-    mounted() {
-        //
+    disabled: {
+        type: Boolean,
+        default: false,
     },
-};
+});
+
+const vChecked = ref(checked);
+const id = ref(`checkbox-${Math.random().toString(36).substr(2, 9)}`);
+
+watch(
+    () => checked,
+    (newVal) => {
+        vChecked.value = newVal;
+    },
+);
+
+const emit = defineEmits<{
+    change: [boolean];
+}>();
+
+function onChange() {
+    emit("change", !checked);
+}
 </script>
 
 <template>

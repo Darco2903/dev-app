@@ -29,8 +29,17 @@
       "@config/*": [
         "./src/config/*"
       ],
+      "@loc/*": [
+        "./src/locales/*"
+      ],
       "@mod/*": [
         "./src/modules/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@router/*": [
+        "./src/router/*"
       ],
       "@store/*": [
         "./src/store/*"

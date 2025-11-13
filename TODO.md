@@ -3,3 +3,4 @@
 - [x] invert start/stop database and cloudflared
 - [x] prevent context
 - [x] prevent F5 refresh
+- [x] copy dev links

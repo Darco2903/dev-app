@@ -1,8 +1,9 @@
+mod cloudflare;
 mod commands;
 mod state;
 mod uniserverz;
 
-use crate::commands::uniserverz::init_uni;
+use crate::commands::{cloudflare::init_cloudflare, uniserverz::init_uni};
 use state::AppState;
 use tauri::{
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
@@ -12,6 +13,8 @@ use tauri::{
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_clipboard_manager::init())
+        .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_single_instance::init(|app, _, _| {
             app.get_webview_window("main")
@@ -57,10 +60,12 @@ pub fn run() {
             commands::uniserverz::uniserverz_toggle_both,
             commands::uniserverz::uniserverz_toggle_apache,
             commands::uniserverz::uniserverz_toggle_mysql,
+            commands::cloudflare::cloudflare_dns_list_dev,
         ])
         .setup(|app| {
             let uni = init_uni().expect("Failed to initialize Uni instance");
-            let state = AppState::new(uni);
+            let cloudflare = init_cloudflare().expect("Failed to initialize Cloudflare client");
+            let state = AppState::new(uni, cloudflare);
             app.manage(state);
 
             let _tray = TrayIconBuilder::new()

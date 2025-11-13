@@ -1,12 +1,17 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
+import svgLoader from "vite-svg-loader";
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [vue(), vueDevTools()],
+    plugins: [
+        //
+        vue(),
+        vueDevTools(),
+        svgLoader(),
+    ],
     server: {
         port: 10100,
     },
@@ -18,7 +23,10 @@ export default defineConfig({
             "@icons": fileURLToPath(new URL("./src/assets/icons", import.meta.url)),
             "@comp": fileURLToPath(new URL("./src/components", import.meta.url)),
             "@config": fileURLToPath(new URL("./src/config", import.meta.url)),
+            "@loc": fileURLToPath(new URL("./src/locales", import.meta.url)),
             "@mod": fileURLToPath(new URL("./src/modules", import.meta.url)),
+            "@pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
+            "@router": fileURLToPath(new URL("./src/router", import.meta.url)),
             "@store": fileURLToPath(new URL("./src/store", import.meta.url)),
             "@styles": fileURLToPath(new URL("./src/styles", import.meta.url)),
             "@utils": fileURLToPath(new URL("./src/utils", import.meta.url)),

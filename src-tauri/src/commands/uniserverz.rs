@@ -15,10 +15,8 @@ pub fn init_uni() -> Result<Uni, String> {
         .as_str()
         .ok_or("Path not found in config file")?;
 
-    let uni = Uni::create_uni(name.to_string(), &std::path::Path::new(path))
-        .map_err(|e| format!("Failed to create Uni instance: {}", e))?;
-
-    Ok(uni)
+    Uni::create_uni(name.to_string(), &std::path::Path::new(path))
+        .map_err(|e| format!("Failed to create Uni instance: {}", e))
 }
 
 #[tauri::command]
