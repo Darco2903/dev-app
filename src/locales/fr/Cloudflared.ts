@@ -2,8 +2,8 @@ import type { Cloudflared } from "../types/Cloudflared";
 
 export default {
     title: "Tunnel Cloudflared",
-    startTunnel: "Démarrer le tunnel",
-    stopTunnel: "Arrêter le tunnel",
+    startTunnel: "Démarrer",
+    stopTunnel: "Arrêter",
     tunnelStatus: {
         starting: "Démarrage",
         running: "Actif",

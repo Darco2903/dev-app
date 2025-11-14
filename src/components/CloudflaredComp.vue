@@ -88,14 +88,14 @@ async function toggleTunnel(enable: boolean) {
                     @click="toggleTunnel(false)"
                     :disabled="busy || store.tunnelStatus == 'STOPPED'"
                 >
-                    {{ t("cloudflared.startTunnel") }}
+                    {{ t("cloudflared.stopTunnel") }}
                 </button>
                 <button
                     class="usr-btn"
                     @click="toggleTunnel(true)"
                     :disabled="busy || store.tunnelStatus == 'RUNNING'"
                 >
-                    {{ t("cloudflared.stopTunnel") }}
+                    {{ t("cloudflared.startTunnel") }}
                 </button>
             </div>
         </div>
