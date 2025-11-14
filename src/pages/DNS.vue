@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { wait } from "web-common";
+import { useStore } from "@store";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import * as cloudflare from "@mod/tauri/cloudflare";
-import { store } from "@store/store";
 
 import Copy1 from "@icons/copy-1.svg";
-import { wait } from "web-common";
 
+const store = useStore();
 const { t } = useI18n();
 
-const state = store.state;
 const refreshBusy = ref(false);
 
 async function refreshRecordList() {
     refreshBusy.value = true;
     const p1 = cloudflare.dns_list_dev().then((records) => {
-        state.dnsRecords = records;
+        store.dnsRecords = records;
     });
 
     const p2 = wait(1000);
@@ -36,7 +36,7 @@ const emit = defineEmits<{
         <div class="content">
             <div class="container">
                 <button class="usr-btn" @click="refreshRecordList" :disabled="refreshBusy">
-                    Refresh
+                    {{ t("common.refresh.refresh") }}
                 </button>
             </div>
 
@@ -48,7 +48,7 @@ const emit = defineEmits<{
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="record in state.dnsRecords" :key="record.id">
+                        <tr v-for="record in store.dnsRecords" :key="record.id">
                             <td class="dns-record flex row align-center space-between">
                                 <div class="dns-record-name">{{ record.name }}</div>
                                 <Copy1 class="copy-icon" @click="writeText(record.name)" />

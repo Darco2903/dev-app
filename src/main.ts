@@ -1,19 +1,14 @@
 import { createApp } from "vue";
-import { router } from "@router/index";
-import { getLocale, i18n } from "./locales";
-import { getTheme, setTheme } from "./modules/themes";
+import { createPinia } from "pinia";
+import { router } from "@router";
+import { i18n } from "@loc";
 
 import App from "./App.vue";
-
 import "@styles/style.css";
-import { store } from "./store/store";
-
-store.state.language = getLocale();
-store.state.theme = await getTheme();
-setTheme(store.state.theme);
 
 createApp(App)
     //
+    .use(createPinia())
     .use(router)
     .use(i18n)
     .mount("#app");

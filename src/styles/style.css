@@ -11,7 +11,7 @@
 
 /* Thème clair */
 [data-theme="light"] {
-    --bg: #f9fafb;
+    --bg: #f9fafbdd;
     --bg-card: #ffffff;
     --text: #111827;
     --text-muted: #6b7280;
@@ -24,7 +24,7 @@
 
 /* Thème sombre */
 [data-theme="dark"] {
-    --bg: #0f1115;
+    --bg: #0f1115dd;
     --bg-card: #1a1c22;
     --text: #f9fafb;
     --text-muted: #9ca3af;

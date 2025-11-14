@@ -1,15 +1,33 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { RouterView } from "vue-router";
+import { ref, onMounted, watch, onBeforeMount } from "vue";
+import { RouterView, useRouter } from "vue-router";
 import { wait } from "web-common";
-import { preload } from "./modules/preload";
+import { useStore } from "@store";
+import { settings } from "@mod/settings";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
 
+const router = useRouter();
+const store = useStore();
+
 const preLoad = ref(false);
 
+watch(
+    () => router.currentRoute.value.path,
+    async (newPath) => {
+        await settings.set("lastPage", newPath);
+    },
+);
+
+onBeforeMount(async () => {
+    const lastPage = (await settings.get("lastPage")) as string | null;
+    if (lastPage && lastPage !== router.currentRoute.value.path) {
+        router.replace(lastPage);
+    }
+});
+
 onMounted(async () => {
-    const p1 = preload();
+    const p1 = store.preload();
     const p2 = wait(1500);
     await Promise.all([p1, p2]);
     preLoad.value = true;

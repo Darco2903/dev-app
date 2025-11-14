@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { wait } from "web-common";
-import { store } from "@store/store";
+import { useStore } from "@store";
 import * as cloudflared from "@mod/tauri/cloudflared";
 
-const state = store.state;
+const store = useStore();
+const { t } = useI18n();
 
 const busy = ref(false);
 const refreshBusy = ref(false);
-
-const tunnelStatusPretty = computed(() => {
-    return state.tunnelStatus.capitalizeFirstLetter();
-});
 
 async function status() {
     refreshBusy.value = true;
@@ -22,7 +20,7 @@ async function status() {
             return "Error";
         })
         .then((status) => {
-            state.tunnelStatus = status;
+            store.tunnelStatus = status;
         });
     const p2 = wait(1000);
     await Promise.all([p1, p2]);
@@ -44,7 +42,7 @@ async function toggleTunnel(enable: boolean) {
             const maxAttempts = 5; // Limit to avoid infinite loop
             const expectedStatus = enable ? "RUNNING" : "STOPPED";
 
-            state.tunnelStatus = enable ? "Starting" : "Stopping";
+            store.tunnelStatus = enable ? "Starting" : "Stopping";
 
             do {
                 await wait(500);
@@ -53,7 +51,7 @@ async function toggleTunnel(enable: boolean) {
                 status = await cloudflared.status();
             } while (status !== expectedStatus && attempts++ < maxAttempts);
 
-            state.tunnelStatus = status;
+            store.tunnelStatus = status;
 
             if (status !== expectedStatus) {
                 console.warn(
@@ -72,30 +70,32 @@ async function toggleTunnel(enable: boolean) {
 
 <template>
     <div class="cloudflared-container">
-        <h2 class="text">Cloudflared Tunnel</h2>
+        <h2 class="text">{{ t("cloudflared.title") }}</h2>
 
         <div class="content">
             <div class="container">
                 <button class="usr-btn" @click="status" :disabled="busy || refreshBusy">
-                    Refresh
+                    {{ t("common.refresh.refresh") }}
                 </button>
-                <p class="text" style="font-weight: 500">{{ tunnelStatusPretty }}</p>
+                <p class="text" style="font-weight: 500">
+                    {{ t(`cloudflared.tunnelStatus.${store.tunnelStatus.toLowerCase()}`) }}
+                </p>
             </div>
 
             <div class="container">
                 <button
                     class="usr-btn"
                     @click="toggleTunnel(false)"
-                    :disabled="busy || state.tunnelStatus == 'STOPPED'"
+                    :disabled="busy || store.tunnelStatus == 'STOPPED'"
                 >
-                    Stop Tunnel
+                    {{ t("cloudflared.startTunnel") }}
                 </button>
                 <button
                     class="usr-btn"
                     @click="toggleTunnel(true)"
-                    :disabled="busy || state.tunnelStatus == 'RUNNING'"
+                    :disabled="busy || store.tunnelStatus == 'RUNNING'"
                 >
-                    Start Tunnel
+                    {{ t("cloudflared.stopTunnel") }}
                 </button>
             </div>
         </div>

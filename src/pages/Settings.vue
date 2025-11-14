@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { loadLocale, Locale } from "@loc/index";
-import { saveTheme, setTheme, theme, Theme } from "@mod/themes";
-import { store } from "@store/store";
+import { useStore } from "@store";
+import { loadLocale, Locale } from "@loc";
+import { saveTheme, setTheme, Theme } from "@mod/themes";
 
-const state = store.state;
+const store = useStore();
 const { t } = useI18n();
 
 function changeLang(e: Event) {
@@ -34,7 +34,7 @@ async function changeTheme(e: Event) {
                 <div class="settings-sub-content">
                     <select
                         class="settings-select usr-select"
-                        v-model="state.language"
+                        v-model="store.language"
                         @change="changeLang"
                     >
                         <option v-for="value in Locale" :key="value" :value="value">
@@ -57,8 +57,8 @@ async function changeTheme(e: Event) {
                                 class="usr-radio"
                                 :value="value"
                                 name="theme"
+                                :checked="store.theme === value"
                                 @change="changeTheme"
-                                :checked="theme === value"
                             />
                             <div class="text">{{ t(`common.theme.${value.toLowerCase()}`) }}</div>
                         </div>

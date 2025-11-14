@@ -4,3 +4,5 @@
 - [x] prevent context
 - [x] prevent F5 refresh
 - [x] copy dev links
+- [x] missing tl
+- [x] save current page on close and load it on start

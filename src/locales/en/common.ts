@@ -11,3 +11,7 @@ export const themeTL: ThemeTL = {
     light: "Light",
     dark: "Dark",
 };
+
+export const refreshTL = {
+    refresh: "Refresh",
+};

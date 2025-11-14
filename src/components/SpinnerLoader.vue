@@ -1,14 +1,10 @@
-<script lang="ts">
-export default {
-    name: "SpinnerLoader",
-
-    props: {
-        size: {
-            type: String,
-            default: "150px",
-        },
+<script setup lang="ts">
+const { size } = defineProps({
+    size: {
+        type: String,
+        default: "150px",
     },
-};
+});
 </script>
 
 <template>

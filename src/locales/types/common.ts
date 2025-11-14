@@ -9,3 +9,7 @@ export type ThemeTL = {
     light: string;
     dark: string;
 };
+
+export type RefreshTL = {
+    refresh: string;
+};

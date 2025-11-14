@@ -1,6 +1,6 @@
 {
     "name": "dev-app",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "private": true,
     "type": "module",
     "scripts": {
@@ -20,6 +20,7 @@
         "@tauri-apps/plugin-dialog": "~2.3.3",
         "@tauri-apps/plugin-store": "~2",
         "@tauri-apps/plugin-window-state": "~2.4.0",
+        "pinia": "^3.0.4",
         "vite-svg-loader": "^5.1.0",
         "vue": "^3.5.22",
         "vue-i18n": "^11.1.12",

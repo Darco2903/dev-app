@@ -7,11 +7,10 @@ export enum Theme {
     DARK = "dark",
 }
 
-export const theme = ref<Theme>(Theme.SYSTEM);
+const theme = ref(Theme.SYSTEM);
 
 export function setTheme(newTheme: Theme) {
     theme.value = newTheme;
-
     if (newTheme === Theme.SYSTEM) {
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         newTheme = prefersDark ? Theme.DARK : Theme.LIGHT;

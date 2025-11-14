@@ -1,28 +1,30 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { wait } from "web-common";
-import { store } from "@store/store";
+import { useStore } from "@store";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
 import Checkbox from "@comp/Checkbox.vue";
 
-const state = store.state;
+const store = useStore();
+const { t } = useI18n();
 
 const busy = ref(false);
 const refreshBusy = ref(false);
 
 const areBothRunning = computed(() => {
-    return state.dbInfo.apache && state.dbInfo.mysql;
+    return store.dbInfo.apache && store.dbInfo.mysql;
 });
 
 const areBothStopped = computed(() => {
-    return !state.dbInfo.apache && !state.dbInfo.mysql;
+    return !store.dbInfo.apache && !store.dbInfo.mysql;
 });
 
 async function status() {
     refreshBusy.value = true;
     const p = wait(1000);
-    state.dbInfo = await uniserverz.info();
+    store.dbInfo = await uniserverz.info();
 
     await p;
     refreshBusy.value = false;
@@ -74,14 +76,14 @@ status().then(() => {
 <template>
     <div class="uniserverz-container">
         <div class="uniserverz-info flex row">
-            <h2 class="text">Database</h2>
-            <p class="text" style="font-weight: 500">{{ state.dbInfo.name }}</p>
+            <h2 class="text">{{ t("uniserverz.title") }}</h2>
+            <p class="text" style="font-weight: 500">{{ store.dbInfo.name }}</p>
         </div>
 
         <div class="content">
             <div>
                 <button class="usr-btn" @click="status" :disabled="busy || refreshBusy">
-                    Refresh
+                    {{ t("common.refresh.refresh") }}
                 </button>
             </div>
 
@@ -91,14 +93,14 @@ status().then(() => {
                     @click="toggleUni(false)"
                     :disabled="busy || areBothStopped || !areBothRunning"
                 >
-                    Stop Database
+                    {{ t("uniserverz.stopDatabase") }}
                 </button>
                 <button
                     class="usr-btn"
                     @click="toggleUni(true)"
                     :disabled="busy || areBothRunning || !areBothStopped"
                 >
-                    Start Database
+                    {{ t("uniserverz.startDatabase") }}
                 </button>
             </div>
 
@@ -107,7 +109,7 @@ status().then(() => {
                     class="text"
                     style="font-weight: 500"
                     @change.self="toggleApache"
-                    :checked="state.dbInfo.apache"
+                    :checked="store.dbInfo.apache"
                     :disabled="busy"
                     >Apache</Checkbox
                 >
@@ -116,7 +118,7 @@ status().then(() => {
                     class="text"
                     style="font-weight: 500"
                     @change.self="toggleMysql"
-                    :checked="state.dbInfo.mysql"
+                    :checked="store.dbInfo.mysql"
                     :disabled="busy"
                     >MySQL</Checkbox
                 >
