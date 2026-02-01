@@ -1,1 +1,6 @@
 * text=auto eol=lf
+
+*.css linguist-vendored
+*.html linguist-vendored
+
+*.svg linguist-vendored

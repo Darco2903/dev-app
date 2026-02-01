@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { States } from "@utils/serviceStates";
+import type { States } from "@/types/serviceStates";
 
 export async function status(): Promise<States> {
     return invoke<States>("cloudflared_status");

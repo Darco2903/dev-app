@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { wait } from "web-common";
+import { wait } from "@darco2903/web-common";
 import { useStore } from "@store";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import * as cloudflare from "@mod/tauri/cloudflare";
@@ -11,9 +11,13 @@ import Copy1 from "@icons/copy-1.svg";
 const store = useStore();
 const { t } = useI18n();
 
-const refreshBusy = ref(false);
+const refreshBusy = ref<boolean>(false);
 
-async function refreshRecordList() {
+const emit = defineEmits<{
+    ready: [];
+}>();
+
+async function refreshRecordList(): Promise<void> {
     refreshBusy.value = true;
     const p1 = cloudflare.dns_list_dev().then((records) => {
         store.dnsRecords = records;
@@ -23,10 +27,6 @@ async function refreshRecordList() {
     await Promise.all([p1, p2]);
     refreshBusy.value = false;
 }
-
-const emit = defineEmits<{
-    ready: [];
-}>();
 </script>
 
 <template>

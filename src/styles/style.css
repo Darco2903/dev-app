@@ -12,7 +12,7 @@
 /* Thème clair */
 [data-theme="light"] {
     --bg: #f9fafbdd;
-    --bg-card: #ffffff;
+    --bg-card: #dee0e6;
     --text: #111827;
     --text-muted: #6b7280;
     --border: #e5e7eb;
@@ -56,7 +56,7 @@ body[mobile] {
     transition: none !important;
 }
 
-::selection {
+*::selection {
     background-color: var(--selection);
 }
 
@@ -124,12 +124,20 @@ body[mobile] {
     justify-content: space-around;
 }
 
+.wrap {
+    flex-wrap: wrap;
+}
+
 .no-underline {
     text-decoration: none;
 }
 
 .no-outline {
     outline: none;
+}
+
+.no-select {
+    user-select: none;
 }
 
 .max {
@@ -143,15 +151,18 @@ body[mobile] {
     cursor: pointer;
     border: 2px solid var(--border);
     outline: none;
+    user-select: none;
     color: var(--text);
     background-color: var(--bg-card);
     transition:
         border 0.2s,
         background-color 0.2s,
-        color 0.2s;
-    user-select: none;
+        color 0.2s,
+        opacity 0.2s,
+        filter 0.2s;
 
-    &:hover {
+    &:hover,
+    &:focus {
         border: 2px solid var(--color-primary);
     }
 
@@ -183,6 +194,7 @@ body[mobile] {
 
     &::placeholder {
         color: var(--text-muted);
+        user-select: none;
     }
 
     &:hover {
@@ -257,8 +269,8 @@ body[mobile] {
 .fade-slide-enter-active,
 .fade-slide-leave-active {
     transition:
-        opacity 0.25s,
-        transform 0.25s;
+        opacity 250ms,
+        transform 250ms;
 }
 .fade-slide-enter-from {
     opacity: 0;

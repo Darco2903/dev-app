@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { wait } from "web-common";
+import { wait } from "@darco2903/web-common";
 import { useStore } from "@store";
 import * as cloudflared from "@mod/tauri/cloudflared";
 
 const store = useStore();
 const { t } = useI18n();
 
-const busy = ref(false);
-const refreshBusy = ref(false);
+const busy = ref<boolean>(false);
+const refreshBusy = ref<boolean>(false);
 
-async function status() {
+async function status(): Promise<void> {
     refreshBusy.value = true;
     const p1 = cloudflared
         .status()
@@ -27,7 +27,7 @@ async function status() {
     refreshBusy.value = false;
 }
 
-async function toggleTunnel(enable: boolean) {
+async function toggleTunnel(enable: boolean): Promise<void> {
     if (busy.value) {
         console.warn("Toggle operation is already in progress.");
         return;

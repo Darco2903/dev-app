@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeMount } from "vue";
 import { RouterView, useRouter } from "vue-router";
-import { wait } from "web-common";
+import { wait } from "@darco2903/web-common";
 import { useStore } from "@store";
 import { settings } from "@mod/settings";
 
@@ -10,7 +10,7 @@ import SpinnerLoader from "@comp/SpinnerLoader.vue";
 const router = useRouter();
 const store = useStore();
 
-const preLoad = ref(false);
+const preLoad = ref<boolean>(false);
 
 watch(
     () => router.currentRoute.value.path,
@@ -35,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="app-container">
+    <div class="app-container flex col center">
         <div>
             <SpinnerLoader class="loading" size="100px" v-show="!preLoad" />
         </div>
@@ -46,11 +46,6 @@ onMounted(async () => {
 
 <style>
 .app-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #eee;

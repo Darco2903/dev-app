@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { wait } from "web-common";
+import { wait } from "@darco2903/web-common";
 import { useStore } from "@store";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
@@ -10,18 +10,22 @@ import Checkbox from "@comp/Checkbox.vue";
 const store = useStore();
 const { t } = useI18n();
 
-const busy = ref(false);
-const refreshBusy = ref(false);
+const busy = ref<boolean>(false);
+const refreshBusy = ref<boolean>(false);
 
-const areBothRunning = computed(() => {
+const areBothRunning = computed<boolean>(() => {
     return store.dbInfo.apache && store.dbInfo.mysql;
 });
 
-const areBothStopped = computed(() => {
+const areBothStopped = computed<boolean>(() => {
     return !store.dbInfo.apache && !store.dbInfo.mysql;
 });
 
-async function status() {
+const emit = defineEmits<{
+    ready: [];
+}>();
+
+async function status(): Promise<void> {
     refreshBusy.value = true;
     const p = wait(1000);
     store.dbInfo = await uniserverz.info();
@@ -30,43 +34,26 @@ async function status() {
     refreshBusy.value = false;
 }
 
-async function toggleUni(enable: boolean) {
+async function toggle(service: "apache" | "mysql" | "both", enable: boolean): Promise<void> {
     busy.value = true;
-    await uniserverz
-        .toggleBoth(enable)
+    let p: Promise<void>;
+    if (service === "apache") {
+        p = uniserverz.toggleApache(enable);
+    } else if (service === "mysql") {
+        p = uniserverz.toggleMysql(enable);
+    } else {
+        p = uniserverz.toggleBoth(enable);
+    }
+
+    await p
+        //
         .then(() => wait(500))
         .then(status)
         .catch((err) => {
-            console.error("Error toggling UniServerZ:", err);
+            console.error(`Error toggling UniServerZ ${service}:`, err);
         });
     busy.value = false;
 }
-
-async function toggleApache(enable: boolean) {
-    busy.value = true;
-    await uniserverz
-        .toggleApache(enable)
-        .then(status)
-        .catch((err) => {
-            console.error("Error toggling Apache:", err);
-        });
-    busy.value = false;
-}
-
-async function toggleMysql(enable: boolean) {
-    busy.value = true;
-    await uniserverz
-        .toggleMysql(enable)
-        .then(status)
-        .catch((err) => {
-            console.error("Error toggling MySQL:", err);
-        });
-    busy.value = false;
-}
-
-const emit = defineEmits<{
-    ready: [];
-}>();
 
 status().then(() => {
     emit("ready");
@@ -90,14 +77,14 @@ status().then(() => {
             <div class="container both">
                 <button
                     class="usr-btn"
-                    @click="toggleUni(false)"
+                    @click="toggle('both', false)"
                     :disabled="busy || areBothStopped || !areBothRunning"
                 >
                     {{ t("uniserverz.stopDatabase") }}
                 </button>
                 <button
                     class="usr-btn"
-                    @click="toggleUni(true)"
+                    @click="toggle('both', true)"
                     :disabled="busy || areBothRunning || !areBothStopped"
                 >
                     {{ t("uniserverz.startDatabase") }}
@@ -108,7 +95,7 @@ status().then(() => {
                 <Checkbox
                     class="text"
                     style="font-weight: 500"
-                    @change.self="toggleApache"
+                    @change.self="(checked) => toggle('apache', checked)"
                     :checked="store.dbInfo.apache"
                     :disabled="busy"
                     >Apache</Checkbox
@@ -117,7 +104,7 @@ status().then(() => {
                 <Checkbox
                     class="text"
                     style="font-weight: 500"
-                    @change.self="toggleMysql"
+                    @change.self="(checked) => toggle('mysql', checked)"
                     :checked="store.dbInfo.mysql"
                     :disabled="busy"
                     >MySQL</Checkbox
