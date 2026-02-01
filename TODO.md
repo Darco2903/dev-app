@@ -6,4 +6,5 @@
 - [x] copy dev links
 - [x] missing tl
 - [x] save current page on close and load it on start
-- [ ] open in edge/opera (normal/private)
+- [x] open in edge/opera (normal/private)
+- [ ] custom title bar

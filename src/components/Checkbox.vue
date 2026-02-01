@@ -1,35 +1,26 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-const { checked, size, haloSize, spread, disabled } = defineProps({
-    checked: {
-        type: Boolean,
-        default: false,
-    },
+const {
+    checked = false,
+    size = "30px",
+    haloSize = "14px",
+    spread = "8px",
+    disabled = false,
+} = defineProps<{
+    checked?: boolean;
+    size?: string;
+    haloSize?: string;
+    spread?: string;
+    disabled?: boolean;
+}>();
 
-    size: {
-        type: String,
-        default: "30px",
-    },
+const vChecked = ref<boolean>(checked);
+const id = ref<string>(`checkbox-${Math.random().toString(36).substr(2, 9)}`);
 
-    haloSize: {
-        type: String,
-        default: "14px",
-    },
-
-    spread: {
-        type: String,
-        default: "8px",
-    },
-
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-});
-
-const vChecked = ref(checked);
-const id = ref(`checkbox-${Math.random().toString(36).substr(2, 9)}`);
+const emit = defineEmits<{
+    change: [boolean];
+}>();
 
 watch(
     () => checked,
@@ -38,11 +29,7 @@ watch(
     },
 );
 
-const emit = defineEmits<{
-    change: [boolean];
-}>();
-
-function onChange() {
+function onChange(): void {
     emit("change", !checked);
 }
 </script>

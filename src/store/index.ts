@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getLocale, Locale } from "@loc";
-import type { DnsRecordType } from "@/types/DnsRecordType";
+import type { DnsRecordType } from "@/types/bindings/DnsRecordType";
 import { dns_list_dev } from "@mod/tauri/cloudflare";
 import { status as cloudflaredStatus } from "@mod/tauri/cloudflared";
 import { info as UniInfo, type UniServerzInfo } from "@mod/tauri/uniserverz";

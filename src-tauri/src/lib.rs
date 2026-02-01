@@ -1,5 +1,6 @@
 mod cloudflare;
 mod commands;
+mod dns;
 mod state;
 mod uniserverz;
 
@@ -61,6 +62,7 @@ pub fn run() {
             commands::uniserverz::uniserverz_toggle_apache,
             commands::uniserverz::uniserverz_toggle_mysql,
             commands::cloudflare::cloudflare_dns_list_dev,
+            commands::dns::dns_open_url_in_browser,
         ])
         .setup(|app| {
             let uni = init_uni().expect("Failed to initialize Uni instance");

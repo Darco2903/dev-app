@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 #[derive(Serialize, Deserialize, TS)]
-#[ts(export, export_to = "src/types/")]
+#[ts(export)]
 pub struct DnsRecordType {
     pub id: String,
     pub record_type: String,
