@@ -8,6 +8,7 @@ import { info as UniInfo, type UniServerzInfo } from "@mod/tauri/uniserverz";
 import { getTheme, setTheme, Theme } from "@mod/themes";
 import { useConfigStore } from "./config";
 import type { CloudflaredStatus } from "@/types/cloudflaredStatus";
+import type { States } from "@/types/serviceStates";
 
 export const useMainStore = defineStore("main", () => {
     const preloading = ref<boolean>(true);
@@ -22,6 +23,10 @@ export const useMainStore = defineStore("main", () => {
     const dnsRecords = ref<DnsRecordType[]>([]);
 
     const configStore = useConfigStore();
+
+    setInterval(() => {
+        console.log("tunnelStatus:", tunnelStatus.value);
+    }, 500);
 
     watch([() => configStore.isOk, () => preloading.value], ([isOk, preloadingValue]) => {
         if (!isOk) {
@@ -49,22 +54,32 @@ export const useMainStore = defineStore("main", () => {
     async function preload2() {
         tunnelStatus.value = "initializing";
 
-        const pCloudflaredStatus = cloudflaredStatus().then((status) => {
-            tunnelStatus.value = stateToStatus(status);
-            console.log("Tunnel status:", tunnelStatus.value);
-        });
+        await Promise.all([
+            //
+            updateTunnelStatus(),
+            updateDbInfo(),
+            updateDnsRecords(),
+        ]);
+    }
 
-        const pUniInfo = UniInfo().then((info) => {
-            dbInfo.value = info;
-            console.log("UniServerZ Info:", dbInfo.value);
-        });
+    async function updateTunnelStatus() {
+        const status: States = await cloudflaredStatus().catch(() => "ERROR");
+        tunnelStatus.value = stateToStatus(status);
+        console.log("Updated Tunnel status:", tunnelStatus.value);
+    }
 
-        const pDnsListDev = dns_list_dev().then((records) => {
-            dnsRecords.value = records;
-            console.log("DNS Records:", dnsRecords.value);
-        });
+    async function updateDbInfo() {
+        dbInfo.value = await UniInfo().catch(() => ({
+            name: "",
+            apache: false,
+            mysql: false,
+        }));
+        console.log("Updated UniServerZ Info:", dbInfo.value);
+    }
 
-        await Promise.all([pCloudflaredStatus, pUniInfo, pDnsListDev]);
+    async function updateDnsRecords() {
+        dnsRecords.value = await dns_list_dev().catch(() => []);
+        console.log("Updated DNS Records:", dnsRecords.value);
     }
 
     return {
@@ -72,12 +87,15 @@ export const useMainStore = defineStore("main", () => {
         preloading: readonly(preloading),
         theme,
         language,
-        tunnelStatus: readonly(tunnelStatus),
-        dbInfo: dbInfo,
+        tunnelStatus,
+        dbInfo: readonly(dbInfo),
         dnsRecords: readonly(dnsRecords),
 
         // actions
         preload,
         preload2,
+        updateTunnelStatus,
+        updateDbInfo,
+        updateDnsRecords,
     };
 });

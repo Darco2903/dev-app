@@ -5,8 +5,8 @@ import { useConfigStore } from "@store/config";
 import { ref } from "vue";
 import { wait } from "@darco2903/web-common";
 
-const configStore = useConfigStore();
 const { t } = useI18n();
+const configStore = useConfigStore();
 
 const saving = ref<boolean>(false);
 

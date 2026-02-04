@@ -10,3 +10,4 @@
 - [ ] custom title bar
 - [x] remove config folder and instead use tauri settings api
 - [ ] add notifications
+- [x] fix cloudflared status

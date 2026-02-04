@@ -4,8 +4,8 @@ import { useMainStore } from "@store/main";
 import { loadLocale, Locale } from "@loc";
 import { saveTheme, setTheme, Theme } from "@mod/themes";
 
-const store = useMainStore();
 const { t } = useI18n();
+const store = useMainStore();
 
 function changeLang(e: Event) {
     const target = e.target as HTMLSelectElement;

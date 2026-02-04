@@ -7,8 +7,8 @@ import * as uniserverz from "@mod/tauri/uniserverz";
 
 import Checkbox from "@comp/Checkbox.vue";
 
-const mainStore = useMainStore();
 const { t } = useI18n();
+const mainStore = useMainStore();
 
 const busy = ref<boolean>(false);
 const refreshBusy = ref<boolean>(false);
@@ -27,10 +27,11 @@ const emit = defineEmits<{
 
 async function status(): Promise<void> {
     refreshBusy.value = true;
-    const p = wait(1000);
-    mainStore.dbInfo = await uniserverz.info();
-
-    await p;
+    await Promise.all([
+        //
+        await mainStore.updateDbInfo(),
+        wait(1000),
+    ]);
     refreshBusy.value = false;
 }
 

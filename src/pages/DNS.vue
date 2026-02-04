@@ -14,13 +14,14 @@ import { BROWSERS } from "@mod/consts";
 
 import Copy1 from "@icons/copy-1.svg";
 
+const { t } = useI18n();
 const mainStore = useMainStore();
 const configStore = useConfigStore();
-const { t } = useI18n();
 
 const refreshBusy = ref<boolean>(false);
 const inPrivate = ref<boolean>(true);
 const browser = ref<BrowserName>("Edge");
+
 const selectedBrowser = computed<Browser>(() => {
     switch (browser.value) {
         case "Edge":
@@ -36,12 +37,11 @@ const emit = defineEmits<{
 
 async function refreshRecordList(): Promise<void> {
     refreshBusy.value = true;
-    const p1 = cloudflare.dns_list_dev().then((records) => {
-        mainStore.dnsRecords = records;
-    });
-
-    const p2 = wait(1000);
-    await Promise.all([p1, p2]);
+    await Promise.all([
+        //
+        mainStore.updateDnsRecords(),
+        wait(1000),
+    ]);
     refreshBusy.value = false;
 }
 
