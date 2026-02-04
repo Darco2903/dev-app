@@ -41,8 +41,8 @@
       "@router": [
         "./src/router/index"
       ],
-      "@store": [
-        "./src/store/index"
+      "@store/*": [
+        "./src/store/*"
       ],
       "@styles/*": [
         "./src/styles/*"

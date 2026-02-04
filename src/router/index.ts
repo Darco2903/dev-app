@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 
+const Config = () => import("@pages/Config.vue");
 const Layout = () => import("@pages/Layout.vue");
 const CloudflaredUniserverz = () => import("@pages/CloudflaredUniserverz.vue");
 const DNS = () => import("@pages/DNS.vue");
@@ -32,6 +33,13 @@ const routes: RouteRecordRaw[] = [
                 component: Settings,
                 meta: {
                     title: "Settings",
+                },
+            },
+            {
+                path: "config",
+                component: Config,
+                meta: {
+                    title: "Config",
                 },
             },
         ],

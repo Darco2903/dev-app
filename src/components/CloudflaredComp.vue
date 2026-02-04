@@ -2,10 +2,11 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { wait } from "@darco2903/web-common";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
 import * as cloudflared from "@mod/tauri/cloudflared";
+import type { States } from "@/types/serviceStates";
 
-const store = useStore();
+const store = useMainStore();
 const { t } = useI18n();
 
 const busy = ref<boolean>(false);
@@ -15,12 +16,12 @@ async function status(): Promise<void> {
     refreshBusy.value = true;
     const p1 = cloudflared
         .status()
+        .then((status) => {
+            store.tunnelStatus = cloudflared.stateToStatus(status);
+        })
         .catch((err) => {
             console.error("Error fetching tunnel status:", err);
-            return "Error";
-        })
-        .then((status) => {
-            store.tunnelStatus = status;
+            return "ERROR" satisfies States;
         });
     const p2 = wait(1000);
     await Promise.all([p1, p2]);
@@ -40,9 +41,9 @@ async function toggleTunnel(enable: boolean): Promise<void> {
             let attempts = 0;
             let status;
             const maxAttempts = 5; // Limit to avoid infinite loop
-            const expectedStatus = enable ? "RUNNING" : "STOPPED";
+            const expectedStatus: States = enable ? "RUNNING" : "STOPPED";
 
-            store.tunnelStatus = enable ? "Starting" : "Stopping";
+            store.tunnelStatus = enable ? "starting" : "stopping";
 
             do {
                 await wait(500);
@@ -51,7 +52,7 @@ async function toggleTunnel(enable: boolean): Promise<void> {
                 status = await cloudflared.status();
             } while (status !== expectedStatus && attempts++ < maxAttempts);
 
-            store.tunnelStatus = status;
+            store.tunnelStatus = cloudflared.stateToStatus(status);
 
             if (status !== expectedStatus) {
                 console.warn(
@@ -86,14 +87,14 @@ async function toggleTunnel(enable: boolean): Promise<void> {
                 <button
                     class="usr-btn"
                     @click="toggleTunnel(false)"
-                    :disabled="busy || store.tunnelStatus == 'STOPPED'"
+                    :disabled="busy || store.tunnelStatus == 'stopped'"
                 >
                     {{ t("cloudflared.stopTunnel") }}
                 </button>
                 <button
                     class="usr-btn"
                     @click="toggleTunnel(true)"
-                    :disabled="busy || store.tunnelStatus == 'RUNNING'"
+                    :disabled="busy || store.tunnelStatus == 'running'"
                 >
                     {{ t("cloudflared.startTunnel") }}
                 </button>

@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import Cloudflared from "./Cloudflared";
 import Uniserverz from "./Uniserverz";
 import DNS from "./DNS";
+import Config from "./Config";
 import Settings from "./Settings";
 
 export default {
@@ -17,5 +18,6 @@ export default {
     cloudflared: Cloudflared,
     uniserverz: Uniserverz,
     dns: DNS,
+    config: Config,
     settings: Settings,
 } satisfies LocalesSchema;

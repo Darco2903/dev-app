@@ -2,23 +2,23 @@
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { wait } from "@darco2903/web-common";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
 import * as uniserverz from "@mod/tauri/uniserverz";
 
 import Checkbox from "@comp/Checkbox.vue";
 
-const store = useStore();
+const mainStore = useMainStore();
 const { t } = useI18n();
 
 const busy = ref<boolean>(false);
 const refreshBusy = ref<boolean>(false);
 
 const areBothRunning = computed<boolean>(() => {
-    return store.dbInfo.apache && store.dbInfo.mysql;
+    return mainStore.dbInfo.apache && mainStore.dbInfo.mysql;
 });
 
 const areBothStopped = computed<boolean>(() => {
-    return !store.dbInfo.apache && !store.dbInfo.mysql;
+    return !mainStore.dbInfo.apache && !mainStore.dbInfo.mysql;
 });
 
 const emit = defineEmits<{
@@ -28,7 +28,7 @@ const emit = defineEmits<{
 async function status(): Promise<void> {
     refreshBusy.value = true;
     const p = wait(1000);
-    store.dbInfo = await uniserverz.info();
+    mainStore.dbInfo = await uniserverz.info();
 
     await p;
     refreshBusy.value = false;
@@ -64,7 +64,7 @@ status().then(() => {
     <div class="uniserverz-container">
         <div class="uniserverz-info flex row">
             <h2 class="text">{{ t("uniserverz.title") }}</h2>
-            <p class="text" style="font-weight: 500">{{ store.dbInfo.name }}</p>
+            <p class="text" style="font-weight: 500">{{ mainStore.dbInfo.name }}</p>
         </div>
 
         <div class="content">
@@ -96,7 +96,7 @@ status().then(() => {
                     class="text"
                     style="font-weight: 500"
                     @change.self="(checked) => toggle('apache', checked)"
-                    :checked="store.dbInfo.apache"
+                    :checked="mainStore.dbInfo.apache"
                     :disabled="busy"
                     >Apache</Checkbox
                 >
@@ -105,7 +105,7 @@ status().then(() => {
                     class="text"
                     style="font-weight: 500"
                     @change.self="(checked) => toggle('mysql', checked)"
-                    :checked="store.dbInfo.mysql"
+                    :checked="mainStore.dbInfo.mysql"
                     :disabled="busy"
                     >MySQL</Checkbox
                 >

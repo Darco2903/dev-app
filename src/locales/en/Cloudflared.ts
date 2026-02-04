@@ -9,5 +9,7 @@ export default {
         running: "Running",
         stopping: "Stopping",
         stopped: "Stopped",
+        initializing: "Initializing",
+        configuration_required: "Configuration Required",
     },
 } satisfies Cloudflared;

@@ -7,6 +7,8 @@
         "core:default",
         "window-state:default",
         "store:default",
-        "clipboard-manager:allow-write-text"
+        "clipboard-manager:allow-write-text",
+        "dialog:allow-open",
+        "dialog:default"
     ]
 }

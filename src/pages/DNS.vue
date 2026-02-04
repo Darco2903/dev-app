@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from "vue";
+import { computed, onBeforeMount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { wait } from "@darco2903/web-common";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
+import { useConfigStore } from "@store/config";
 import { settings } from "@mod/settings";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import * as cloudflare from "@mod/tauri/cloudflare";
@@ -13,7 +14,8 @@ import { BROWSERS } from "@mod/consts";
 
 import Copy1 from "@icons/copy-1.svg";
 
-const store = useStore();
+const mainStore = useMainStore();
+const configStore = useConfigStore();
 const { t } = useI18n();
 
 const refreshBusy = ref<boolean>(false);
@@ -35,7 +37,7 @@ const emit = defineEmits<{
 async function refreshRecordList(): Promise<void> {
     refreshBusy.value = true;
     const p1 = cloudflare.dns_list_dev().then((records) => {
-        store.dnsRecords = records;
+        mainStore.dnsRecords = records;
     });
 
     const p2 = wait(1000);
@@ -67,7 +69,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <div class="dns-container">
+    <div class="dns-container" :disabled="!configStore.isOk">
         <h2 class="dns-title text" style="font-weight: 800">{{ t("dns.title") }}</h2>
 
         <div class="content">
@@ -103,7 +105,7 @@ onBeforeMount(async () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="record in store.dnsRecords" :key="record.id">
+                        <tr v-for="record in mainStore.dnsRecords" :key="record.id">
                             <td class="dns-record flex row align-center space-between">
                                 <div class="dns-record-name" @click="onDnsNameClick(record.name)">
                                     {{ record.name }}
@@ -119,6 +121,13 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped>
+.dns-container {
+    &[disabled="true"] {
+        pointer-events: none;
+        filter: opacity(0.6);
+    }
+}
+
 .container {
     margin-top: 16px;
     max-height: 340px;

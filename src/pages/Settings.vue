@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
 import { loadLocale, Locale } from "@loc";
 import { saveTheme, setTheme, Theme } from "@mod/themes";
 
-const store = useStore();
+const store = useMainStore();
 const { t } = useI18n();
 
 function changeLang(e: Event) {
