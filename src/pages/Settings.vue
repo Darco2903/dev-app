@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
 import { loadLocale, Locale } from "@loc";
 import { saveTheme, setTheme, Theme } from "@mod/themes";
 
-const store = useStore();
 const { t } = useI18n();
+const store = useMainStore();
 
 function changeLang(e: Event) {
     const target = e.target as HTMLSelectElement;

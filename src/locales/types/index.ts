@@ -3,6 +3,7 @@ import type { NavBar } from "./NavBar";
 import type { Cloudflared } from "./Cloudflared";
 import type { Uniserverz } from "./Uniserverz";
 import type { DNS } from "./DNS";
+import type { Config } from "./Config";
 import type { Settings } from "./Settings";
 
 export type LocalesSchema = {
@@ -10,11 +11,13 @@ export type LocalesSchema = {
         locale: Common.LocaleTL;
         theme: Common.ThemeTL;
         refresh: Common.RefreshTL;
+        confirm: Common.Confirm;
     };
     navBar: NavBar;
     cloudflared: Cloudflared;
     uniserverz: Uniserverz;
     dns: DNS;
+    config: Config;
     settings: Settings;
 };
 

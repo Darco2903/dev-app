@@ -4,7 +4,6 @@ mod dns;
 mod state;
 mod uniserverz;
 
-use crate::commands::{cloudflare::init_cloudflare, uniserverz::init_uni};
 use state::AppState;
 use tauri::{
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
@@ -14,6 +13,7 @@ use tauri::{
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_window_state::Builder::new().build())
@@ -57,17 +57,19 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::cloudflared::cloudflared_status,
             commands::cloudflared::cloudflared_toggle,
+            commands::uniserverz::init_uni,
+            commands::uniserverz::unset_uni,
             commands::uniserverz::uniserverz_info,
             commands::uniserverz::uniserverz_toggle_both,
             commands::uniserverz::uniserverz_toggle_apache,
             commands::uniserverz::uniserverz_toggle_mysql,
+            commands::cloudflare::init_cloudflare,
+            commands::cloudflare::unset_cloudflare,
             commands::cloudflare::cloudflare_dns_list_dev,
             commands::dns::dns_open_url_in_browser,
         ])
         .setup(|app| {
-            let uni = init_uni().expect("Failed to initialize Uni instance");
-            let cloudflare = init_cloudflare().expect("Failed to initialize Cloudflare client");
-            let state = AppState::new(uni, cloudflare);
+            let state = AppState::new();
             app.manage(state);
 
             let _tray = TrayIconBuilder::new()

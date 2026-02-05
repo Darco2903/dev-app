@@ -2,13 +2,19 @@
 import { ref, onMounted, watch, onBeforeMount } from "vue";
 import { RouterView, useRouter } from "vue-router";
 import { wait } from "@darco2903/web-common";
-import { useStore } from "@store";
+import { useMainStore } from "@store/main";
+import { useConfigStore } from "@store/config";
+import { useUIStore } from "@store/ui";
 import { settings } from "@mod/settings";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
+import Confirm from "@comp/ui/Confirm.vue";
+import NotifyContainer from "@comp/ui/NotifyContainer.vue";
 
 const router = useRouter();
-const store = useStore();
+const mainStore = useMainStore();
+const configStore = useConfigStore();
+const ui = useUIStore();
 
 const preLoad = ref<boolean>(false);
 
@@ -27,9 +33,24 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-    const p1 = store.preload();
-    const p2 = wait(1500);
-    await Promise.all([p1, p2]);
+    const p1 = mainStore.preload();
+    const p2 = configStore
+        .init()
+        .then(async () => {
+            if (!configStore.isConfigured) {
+                router.replace("/config");
+            } else {
+                await configStore.loadConfig();
+                console.log("Config initialized.");
+            }
+        })
+        .catch((e) => {
+            console.error("Error during config initialization:", e);
+            configStore.configError = true;
+            router.replace("/config");
+        });
+    const p3 = wait(1500);
+    await Promise.all([p1, p2, p3]);
     preLoad.value = true;
 });
 </script>
@@ -40,7 +61,10 @@ onMounted(async () => {
             <SpinnerLoader class="loading" size="100px" v-show="!preLoad" />
         </div>
 
-        <RouterView class="components" :ready="preLoad" />
+        <Confirm />
+        <NotifyContainer />
+
+        <RouterView class="components" :ready="preLoad" :inert="ui.isBodyInert()" />
     </div>
 </template>
 

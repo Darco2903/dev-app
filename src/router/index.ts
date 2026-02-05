@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 
-const Layout = () => import("@pages/Layout.vue");
-const CloudflaredUniserverz = () => import("@pages/CloudflaredUniserverz.vue");
-const DNS = () => import("@pages/DNS.vue");
-const Settings = () => import("@pages/Settings.vue");
+import * as Config from "@pages/Config.vue";
+import * as Layout from "@pages/Layout.vue";
+import * as CloudflaredUniserverz from "@pages/CloudflaredUniserverz.vue";
+import * as DNS from "@pages/DNS.vue";
+import * as Settings from "@pages/Settings.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -32,6 +33,13 @@ const routes: RouteRecordRaw[] = [
                 component: Settings,
                 meta: {
                     title: "Settings",
+                },
+            },
+            {
+                path: "config",
+                component: Config,
+                meta: {
+                    title: "Config",
                 },
             },
         ],

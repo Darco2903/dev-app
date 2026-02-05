@@ -27,7 +27,7 @@ export default defineConfig({
             "@mod": fileURLToPath(new URL("./src/modules", import.meta.url)),
             "@pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
             "@router": fileURLToPath(new URL("./src/router/index", import.meta.url)),
-            "@store": fileURLToPath(new URL("./src/store/index", import.meta.url)),
+            "@store": fileURLToPath(new URL("./src/store", import.meta.url)),
             "@styles": fileURLToPath(new URL("./src/styles", import.meta.url)),
             "@utils": fileURLToPath(new URL("./src/utils", import.meta.url)),
         },

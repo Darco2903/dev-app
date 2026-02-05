@@ -1,6 +1,6 @@
 {
     "$schema": "https://schema.tauri.app/config/2.0.0-rc",
-    "productName": "Dev App",
+    "productName": "dev-app",
     "version": "0.7.0",
     "identifier": "fr.darco2903.dev-app",
     "mainBinaryName": "dev-app",

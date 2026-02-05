@@ -8,6 +8,7 @@ import NavigationButton from "@comp/NavigationButton.vue";
 import Home1 from "@icons/home-1.svg";
 import Server1 from "@icons/dns-1.svg";
 import Settings1 from "@icons/settings-1.svg";
+import Config1 from "@icons/config-1.svg";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -43,6 +44,15 @@ const { t } = useI18n();
                                 :active="router.currentRoute.value.path === '/settings'"
                             >
                                 <Settings1 class="text" />
+                            </NavigationButton>
+                        </RouterLink>
+
+                        <RouterLink class="no-underline no-outline" to="/config">
+                            <NavigationButton
+                                :label="t('navBar.config')"
+                                :active="router.currentRoute.value.path === '/config'"
+                            >
+                                <Config1 class="text" />
                             </NavigationButton>
                         </RouterLink>
                     </div>

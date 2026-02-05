@@ -1,5 +1,5 @@
 use crate::{
-    cloudflare::{cloudflare::Cloudflare, dns_record_type::DnsRecordType, CLOUDFLARE_CONFIG},
+    cloudflare::{cloudflare::Cloudflare, dns_record_type::DnsRecordType},
     state::AppState,
 };
 use cloudflare::{
@@ -12,30 +12,35 @@ use cloudflare::{
 };
 use tauri::Manager;
 
-pub fn init_cloudflare() -> Result<Cloudflare, String> {
-    let json: serde_json::Value = serde_json::from_str(&CLOUDFLARE_CONFIG)
-        .map_err(|e| format!("Failed to parse config file: {}", e))?;
-
-    let api_token = json["api_token"]
-        .as_str()
-        .ok_or_else(|| format!("Missing api_token in config file"))?;
-
-    let zone_id = json["zone_id"]
-        .as_str()
-        .ok_or_else(|| format!("Missing zone_id in config file"))?;
-
-    let credentials = Credentials::UserAuthToken {
-        token: api_token.to_string(),
-    };
+#[tauri::command]
+pub fn init_cloudflare(
+    handle: tauri::AppHandle,
+    api_token: String,
+    zone_id: String,
+) -> Result<(), String> {
+    let credentials = Credentials::UserAuthToken { token: api_token };
 
     let client = Client::new(
         credentials,
         ClientConfig::default(),
         Environment::Production,
     )
-    .map_err(|e| format!("Failed to create CLoudflare Client: {}", e))?;
+    .map_err(|e| format!("Failed to create Cloudflare Client: {}", e))?;
 
-    Ok(Cloudflare::new(client, zone_id.to_string()))
+    let state = handle.state::<AppState>();
+    let mut cloudflare_option = state.cloudflare.blocking_lock();
+    *cloudflare_option = Some(Cloudflare::new(client, zone_id.clone()));
+
+    Ok(())
+}
+
+#[tauri::command]
+pub fn unset_cloudflare(handle: tauri::AppHandle) -> Result<(), String> {
+    let state = handle.state::<AppState>();
+    let mut cloudflare_option = state.cloudflare.blocking_lock();
+    *cloudflare_option = None;
+
+    Ok(())
 }
 
 #[tauri::command]
@@ -43,7 +48,15 @@ pub async fn cloudflare_dns_list_dev(
     handle: tauri::AppHandle,
 ) -> Result<Vec<DnsRecordType>, String> {
     let state = handle.state::<AppState>();
-    let cloudflare = state.cloudflare.lock().await;
+
+    // unwrap or error
+    let cloudflare_option = state.cloudflare.lock().await;
+
+    if cloudflare_option.is_none() {
+        return Err("Cloudflare client is not initialized.".to_string());
+    }
+
+    let cloudflare = cloudflare_option.as_ref().unwrap();
 
     let req = ListDnsRecords {
         zone_identifier: &cloudflare.zone_id,

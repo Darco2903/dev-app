@@ -7,5 +7,7 @@ export type Cloudflared = {
         running: string;
         stopping: string;
         stopped: string;
+        initializing: string;
+        configuration_required: string;
     };
 };

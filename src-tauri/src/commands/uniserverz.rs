@@ -1,22 +1,27 @@
 use crate::state::AppState;
-use crate::uniserverz::UNI_CONFIG;
 use crate::uniserverz::{info::UniServerzInfo, uni::Uni};
+use std::path::Path;
 use tauri::Manager;
 
-pub fn init_uni() -> Result<Uni, String> {
-    let json: serde_json::Value = serde_json::from_str(&UNI_CONFIG)
-        .map_err(|e| format!("Failed to parse config file: {}", e))?;
+#[tauri::command]
+pub fn init_uni(handle: tauri::AppHandle, name: String, path: &str) -> Result<(), String> {
+    let uni = Uni::create_uni(name, Path::new(path))
+        .map_err(|e| format!("Failed to create Uni instance: {}", e))?;
 
-    let name = json["name"]
-        .as_str()
-        .ok_or("Name not found in config file")?;
+    let state = handle.state::<AppState>();
+    let mut uni_option = state.uni.blocking_lock();
+    *uni_option = Some(uni);
 
-    let path = json["path"]
-        .as_str()
-        .ok_or("Path not found in config file")?;
+    Ok(())
+}
 
-    Uni::create_uni(name.to_string(), &std::path::Path::new(path))
-        .map_err(|e| format!("Failed to create Uni instance: {}", e))
+#[tauri::command]
+pub fn unset_uni(handle: tauri::AppHandle) -> Result<(), String> {
+    let state = handle.state::<AppState>();
+    let mut uni_option = state.uni.blocking_lock();
+    *uni_option = None;
+
+    Ok(())
 }
 
 #[tauri::command]
@@ -24,7 +29,13 @@ pub async fn uniserverz_info(handle: tauri::AppHandle) -> Result<UniServerzInfo,
     println!("Checking Uni server status...");
 
     let state = handle.state::<AppState>();
-    let uni = state.uni.lock().await;
+    let uni_option = state.uni.lock().await;
+
+    if uni_option.is_none() {
+        return Err("Uni server is not initialized.".to_string());
+    }
+
+    let uni = uni_option.as_ref().unwrap();
 
     let status = uni
         .info()
@@ -37,7 +48,13 @@ pub async fn uniserverz_info(handle: tauri::AppHandle) -> Result<UniServerzInfo,
 #[tauri::command]
 pub async fn uniserverz_toggle_both(handle: tauri::AppHandle, enable: bool) -> Result<(), String> {
     let state = handle.state::<AppState>();
-    let mut uni = state.uni.lock().await;
+    let mut uni_option = state.uni.lock().await;
+
+    if uni_option.is_none() {
+        return Err("Uni server is not initialized.".to_string());
+    }
+
+    let uni = uni_option.as_mut().unwrap();
 
     if uni.is_busy() {
         eprintln!("Uni server is currently busy.");
@@ -61,7 +78,13 @@ pub async fn uniserverz_toggle_apache(
     enable: bool,
 ) -> Result<(), String> {
     let state = handle.state::<AppState>();
-    let mut uni = state.uni.lock().await;
+    let mut uni_option = state.uni.lock().await;
+
+    if uni_option.is_none() {
+        return Err("Uni server is not initialized.".to_string());
+    }
+
+    let uni = uni_option.as_mut().unwrap();
 
     if uni.is_busy() {
         eprintln!("Uni server is currently busy.");
@@ -79,7 +102,13 @@ pub async fn uniserverz_toggle_apache(
 #[tauri::command]
 pub async fn uniserverz_toggle_mysql(handle: tauri::AppHandle, enable: bool) -> Result<(), String> {
     let state = handle.state::<AppState>();
-    let mut uni = state.uni.lock().await;
+    let mut uni_option = state.uni.lock().await;
+
+    if uni_option.is_none() {
+        return Err("Uni server is not initialized.".to_string());
+    }
+
+    let uni = uni_option.as_mut().unwrap();
 
     if uni.is_busy() {
         eprintln!("Uni server is currently busy.");

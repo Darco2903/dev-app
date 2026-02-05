@@ -6,6 +6,14 @@ export type UniServerzInfo = {
     mysql: boolean;
 };
 
+export async function init_uni(name: string, path: string): Promise<void> {
+    return invoke("init_uni", { name, path });
+}
+
+export async function unset_uni(): Promise<void> {
+    return invoke("unset_uni");
+}
+
 export async function info(): Promise<UniServerzInfo> {
     return invoke("uniserverz_info");
 }
