@@ -7,3 +7,5 @@
 *.svg linguist-vendored
 
 src/locales/** linguist-generated
+src/store/** linguist-generated
+src/types/** linguist-generated
