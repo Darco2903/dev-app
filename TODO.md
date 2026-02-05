@@ -9,5 +9,5 @@
 - [x] open in edge/opera (normal/private)
 - [ ] custom title bar
 - [x] remove config folder and instead use tauri settings api
-- [ ] add notifications
+- [x] add notifications
 - [x] fix cloudflared status
