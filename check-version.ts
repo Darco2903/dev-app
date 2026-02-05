@@ -3,13 +3,13 @@ import path from "path";
 
 const args = process.argv.slice(2);
 if (args.length < 1) {
-    console.error(`Usage: ${path.basename(process.argv[1])} <version>`);
+    console.error(`Usage: ${path.basename(process.argv[1])} <version (x.x)>`);
     process.exit(1);
 }
 
 const versionToCheck = args[0];
-if (!/^\d+\.\d+\.\d+$/.test(versionToCheck)) {
-    console.error("Invalid version format. Expected format: x.y.z (release only)");
+if (!/^\d+\.\d+$/.test(versionToCheck)) {
+    console.error("Invalid version format. Expected format: x.y (release only)");
     process.exit(1);
 }
 
@@ -21,11 +21,11 @@ const pack = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
 const cargoToml = fs.readFileSync(cargoTomlPath, "utf-8");
 const tauriConf = JSON.parse(fs.readFileSync(tauriConfPath, "utf-8"));
 
-const packageVersion = pack.version;
-const cargoVersionMatch = cargoToml.match(/version\s*=\s*"(.*?)"/);
-const cargoVersion = cargoVersionMatch ? cargoVersionMatch[1] : null;
-const tauriVersion = tauriConf.version;
-const tauriTitle = "0." + tauriConf.app.windows[0].title.match(/\d+\.\d+/); // Only two last parts of the version
+const packageVersion = pack.version.match(/\d+\.\d+$/)[0]; // Only two last parts of the version
+const cargoVersionMatch = cargoToml.match(/\s*version\s*=\s*"(.*?)"/);
+const cargoVersion = cargoVersionMatch ? cargoVersionMatch[1].match(/\d+\.\d+$/)[0] : null;
+const tauriVersion = tauriConf.version.match(/\d+\.\d+$/)[0]; // Only two last parts of the version
+const tauriTitle = tauriConf.app.windows[0].title.match(/\d+\.\d+$/)[0]; // Only two last parts of the version
 
 // console.log(`package.json version: ${packageVersion}`);
 // console.log(`Cargo.toml version: ${cargoVersion}`);
