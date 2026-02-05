@@ -13,3 +13,8 @@ export type ThemeTL = {
 export type RefreshTL = {
     refresh: string;
 };
+
+export type Confirm = {
+    ok: string;
+    cancel: string;
+};

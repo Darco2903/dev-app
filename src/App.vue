@@ -4,13 +4,17 @@ import { RouterView, useRouter } from "vue-router";
 import { wait } from "@darco2903/web-common";
 import { useMainStore } from "@store/main";
 import { useConfigStore } from "@store/config";
+import { useUIStore } from "@store/ui";
 import { settings } from "@mod/settings";
 
 import SpinnerLoader from "@comp/SpinnerLoader.vue";
+import Confirm from "@comp/ui/Confirm.vue";
+import NotifyContainer from "@comp/ui/NotifyContainer.vue";
 
 const router = useRouter();
 const mainStore = useMainStore();
 const configStore = useConfigStore();
+const ui = useUIStore();
 
 const preLoad = ref<boolean>(false);
 
@@ -57,7 +61,10 @@ onMounted(async () => {
             <SpinnerLoader class="loading" size="100px" v-show="!preLoad" />
         </div>
 
-        <RouterView class="components" :ready="preLoad" />
+        <Confirm />
+        <NotifyContainer />
+
+        <RouterView class="components" :ready="preLoad" :inert="ui.isBodyInert()" />
     </div>
 </template>
 

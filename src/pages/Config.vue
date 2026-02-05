@@ -1,21 +1,40 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { open } from "@tauri-apps/plugin-dialog";
-import { useConfigStore } from "@store/config";
-import { ref } from "vue";
 import { wait } from "@darco2903/web-common";
+import { useConfigStore } from "@store/config";
+import { useNotifyStore } from "@store/ui";
 
 const { t } = useI18n();
 const configStore = useConfigStore();
+const notifyStore = useNotifyStore();
 
 const saving = ref<boolean>(false);
 
 async function onSave() {
     saving.value = true;
     console.log("Saving config...");
+    const p1 = configStore
+        .saveConfig()
+        .then(() => {
+            notifyStore.notify({
+                type: "success",
+                message: t("config.saveSuccess"),
+                duration: 2000,
+            });
+        })
+        .catch((err) => {
+            console.error("Failed to save config:", err);
+            notifyStore.notify({
+                type: "error",
+                message: t("config.saveError"),
+                duration: 2000,
+            });
+        });
     await Promise.all([
         //
-        configStore.saveConfig(),
+        p1,
         wait(1500),
     ]);
     console.log("Config saved.");

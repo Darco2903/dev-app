@@ -11,6 +11,7 @@ export type LocalesSchema = {
         locale: Common.LocaleTL;
         theme: Common.ThemeTL;
         refresh: Common.RefreshTL;
+        confirm: Common.Confirm;
     };
     navBar: NavBar;
     cloudflared: Cloudflared;

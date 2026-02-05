@@ -13,6 +13,7 @@ export default {
         locale: Common.localeTL,
         theme: Common.themeTL,
         refresh: Common.refreshTL,
+        confirm: Common.confirm,
     },
     navBar: NavBar,
     cloudflared: Cloudflared,

@@ -1,4 +1,4 @@
-import type { LocaleTL, ThemeTL } from "../types/common";
+import type { Confirm, LocaleTL, ThemeTL } from "../types/common";
 
 export const localeTL: LocaleTL = {
     system: "Système",
@@ -14,4 +14,9 @@ export const themeTL: ThemeTL = {
 
 export const refreshTL = {
     refresh: "Actualiser",
+};
+
+export const confirm: Confirm = {
+    ok: "OK",
+    cancel: "Annuler",
 };

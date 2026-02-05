@@ -4,4 +4,6 @@ export default {
     title: "Configuration",
     saveButton: "Sauvegarder",
     cancelButton: "Annuler",
+    saveSuccess: "Configuration sauvegardée",
+    saveError: "Échec de la sauvegarde",
 } satisfies Config;
