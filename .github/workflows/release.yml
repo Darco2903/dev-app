@@ -1,0 +1,127 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - "v\\d+\\.\\d+\\.\\d+" # Trigger on version tags (x.y.z)
+
+permissions:
+    contents: write
+    packages: write
+
+env:
+    TAG_VERSION: "${GITHUB_REF_NAME#v}"
+    PNPM_VERSION: "10.28.2"
+    NODE_VERSION: 24
+    BUNDLE_PATH: "src-tauri/target/release/bundle/nsis/dev-app_*_x64-setup.exe"
+
+jobs:
+    check:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "${{ env.PNPM_VERSION }}"
+
+            - name: Use Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: "pnpm"
+                  registry-url: https://npm.pkg.github.com
+
+            - name: Echo version
+              run: echo "Releasing version ${{ env.TAG_VERSION }}"
+
+            - name: Echo bundle path
+              run: echo "Bundle path ${{ env.BUNDLE_PATH }}"
+
+            - name: Check version
+              run: pnpm dlx tsx check-version.ts "${{ env.TAG_VERSION }}"
+
+            # - name: Check tag matches package.json version
+            #   run: |
+            #     TAG_VERSION="${GITHUB_REF_NAME#v}"
+            #     PKG_VERSION=$(node -p "require('./package.json').version")
+
+            #     echo "Tag version: $TAG_VERSION"
+            #     echo "Package version: $PKG_VERSION"
+
+            #     if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            #       echo "❌ Tag version does not match package.json version"
+            #       exit 1
+            #     fi
+
+    # -----------------------------------------------------------------------------------------------------
+
+    build:
+        needs: check
+        runs-on: ${{ matrix.platform }}
+
+        permissions:
+            contents: write
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - platform: "windows-latest"
+                      args: ""
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: "${{ env.PNPM_VERSION }}"
+
+            - name: Use Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: "pnpm"
+                  registry-url: https://npm.pkg.github.com
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
+            - name: Install Rust stable
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
+                  targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+            # - name: Install dependencies (ubuntu only)
+            #   if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+            #   run: |
+            #       sudo apt-get update
+            #       sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+            - name: Build and bundle
+              uses: tauri-apps/tauri-action@v0
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+            #       releaseName: "App v__VERSION__"
+            #       releaseBody: "See the assets to download this version and install."
+            #       releaseDraft: true
+            #       prerelease: false
+            #       args: ${{ matrix.args }}
+
+            - name: Create GitHub Release
+              if: "!contains(steps.version.outputs.version, '-')"
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: "${{ env.BUNDLE_PATH }}"
+                  generate_release_notes: true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
