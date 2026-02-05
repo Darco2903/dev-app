@@ -3,7 +3,7 @@ import path from "path";
 
 const args = process.argv.slice(2);
 if (args.length < 1) {
-    console.error("Usage: node check.js <version>");
+    console.error(`Usage: ${path.basename(process.argv[1])} <version>`);
     process.exit(1);
 }
 
