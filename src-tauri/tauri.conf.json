@@ -3,7 +3,7 @@
     "productName": "dev-app",
     "version": "0.7.0",
     "identifier": "fr.darco2903.dev-app",
-    "mainBinaryName": "dev-app",
+    "mainBinaryName": "Dev App",
     "build": {
         "frontendDist": "../dist",
         "devUrl": "http://localhost:10100",
