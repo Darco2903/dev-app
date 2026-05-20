@@ -11,7 +11,7 @@ permissions:
 
 env:
     TAG_VERSION: "${GITHUB_REF_NAME#v}"
-    PNPM_VERSION: "10.28.2"
+    PNPM_VERSION: "10.30.3"
     NODE_VERSION: 24
     BUNDLE_PATH: "src-tauri/target/release/bundle/nsis/dev-app_*_x64-setup.exe"
 
