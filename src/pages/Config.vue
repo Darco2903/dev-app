@@ -56,7 +56,7 @@ async function onBrowseUniPath() {
     <div class="servers-content max">
         <h2 class="servers-title text" style="font-weight: 800">{{ t("config.title") }}</h2>
 
-        <div class="flex col max" style="gap: 20px">
+        <div class="flex col" style="gap: 20px">
             <div class="settings-container">
                 <div class="settings-content flex column">
                     <div class="settings-sub setting-cloudflare flex col">

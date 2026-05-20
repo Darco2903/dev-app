@@ -1,6 +1,6 @@
 [package]
     name = "dev-app"
-    version = "0.7.0"
+    version = "0.7.1"
     description = "Dev App"
     authors = [
         "Darco2903"
@@ -21,14 +21,14 @@
     ]
 
 [build-dependencies]
-    tauri-build = {version = "2.0.0", features = [] }
+    tauri-build = {version = "2.2.0", features = [] }
     ts-rs = "11.1.0"
 
 [dependencies]
     serde_json = "1.0"
     serde = {version = "1.0", features = ["derive"] }
     log = "0.4"
-    tauri = {version = "2.0.0", features = ["tray-icon"] }
+    tauri = {version = "2.5.0", features = [ "tray-icon"] }
     tauri-plugin-log = "2.0.0-rc"
     tokio = "1.46.1"
     cloudflare = "0.14.0"

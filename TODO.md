@@ -11,3 +11,6 @@
 - [x] remove config folder and instead use tauri settings api
 - [x] add notifications
 - [x] fix cloudflared status
+- [x] fix config page scroll
+- [ ] add open apache in browser
+- [ ] apache port in config (UniServerZ/home/us_config/us_user.ini)
